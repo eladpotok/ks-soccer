@@ -1,0 +1,29 @@
+.panel {
+    background-color: rgb(29, 27, 27);
+    color: white;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 40px;
+    display: flex;
+}
+
+.username {
+    font-style: italic;
+    padding-left: 10px;
+    text-decoration: underline;
+}
+
+.logoutIcon {
+    height: 24px;
+    width: 24px;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+
+.homeIcon {
+    height: 24px;
+    width: 24px;
+    margin-top: 8px;
+    margin-right: 5px;
+}

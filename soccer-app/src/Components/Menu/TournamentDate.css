@@ -1,0 +1,79 @@
+.parent {
+    padding: 25px;
+    flex: 1;
+    
+}
+
+.tournament {
+    margin: auto;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.date-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100px;
+    margin: auto;
+}
+
+.header {
+    font-size: 25px;
+    color: white;
+    margin: 10px; 
+}
+
+.year {
+    color:hsla(0, 52%, 64%, 0.646);
+    font-weight: bold;
+}
+
+.day {
+    background-color: white;
+    color: rgb(83, 83, 83);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.time {
+    font-size: 10px;
+    color: grey;;
+}
+
+.divider {
+    height: 1px;
+    margin: 3px;
+    border: rgb(199, 199, 199);
+    border-width: 0px;
+    border-top-width: 2px;
+    border-style: solid;
+    
+}
+
+.date-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    background-color: hsl(0, 34%, 38%);
+    color: white;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.button-container {
+    
+    text-align: center;;
+}
+
+.button {
+    width: 120px;
+}

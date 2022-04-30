@@ -1,0 +1,134 @@
+.parent {
+    padding: 25px;
+    width: 400px;
+    display: flex;
+}
+
+.tournament {
+    margin: auto;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.date-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100px;
+    margin: auto;
+}
+
+.header {
+    font-size: 25px;
+    color: white;
+    margin: 10px; 
+}
+
+.year {
+    color:hsla(0, 52%, 64%, 0.646);
+    font-weight: bold;
+}
+
+.day {
+    background-color: white;
+    color: rgb(83, 83, 83);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+    font-size: 30px;
+}
+
+
+
+
+.time {
+    font-size: 20px;
+    color: black;;
+}
+
+.divider {
+    height: 1px;
+    margin: 3px;
+    border: rgb(199, 199, 199);
+    border-width: 0px;
+    border-top-width: 2px;
+    border-style: solid;
+    
+}
+
+.date-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    background-color: hsl(0, 34%, 38%);
+    color: white;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.button-container {
+    
+    text-align: center;;
+}
+
+.trash-icon {
+    height: 32px;
+    height:  32px;
+    color:  white;
+    
+    float: right;
+}
+
+.play-button {
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    padding: 8px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 1;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+.button:hover {    background-color: #e74f21;}
+
+
+.date-rubplic {
+    background-color: rgba(246, 246, 246, 1);
+    display: flex;
+    font-size: 32px;
+    text-align: center;
+    margin: 10px;
+    border-radius: 12px;
+}
+
+.date-rublic-devider {
+    border: 0px solid grey;
+    border-right-width: 1px;
+    height: 30px;
+    margin-top:auto;
+    margin-bottom:auto;
+    margin-left: 5px;
+
+}
+
+.date-label {
+    text-align: center;
+    width: 100%;
+}
+
+.regular-text {
+    font-size: 33px;
+    color: white;
+}

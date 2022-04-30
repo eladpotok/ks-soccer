@@ -1,0 +1,40 @@
+.user-tabs { 
+  margin: auto;
+  width: 270px;
+  padding: 10px;
+}
+
+.user-tab {
+    
+}
+
+.ant-tabs-nav {
+    color: Orange;
+    text-align: center;
+    width: 100%;
+    font-family: Segoe UI Black;
+    text-align: center;
+}
+.ant-tabs-nav-wrap {
+    text-align: center;
+    
+    
+
+}
+
+/* button hover */
+.ant-tabs-tab-btn:hover {    color: rgba(252, 81, 18, 0.8);}
+
+/* unselected button */
+.ant-tabs-tab-btn {    color: rgba(252, 81, 18, 0.5);}
+
+/* selected button */
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: orangered;
+    text-shadow: 0 0 0.25px currentcolor;
+    text-decoration: underline;
+}
+
+.ant-tabs-nav-list {
+    margin: auto;
+}
