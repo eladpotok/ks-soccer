@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { removePlayerFromTournament } from '../../../Adapters/TournamentPlayersProvider';
 import { UserContext } from '../../../Store/UserContext';
 import Stars from '../../UI/Stars';
 import './ParticipantsList.css'

@@ -1,7 +1,9 @@
-import { Card,  DatePicker, TimePicker } from "antd";
-import { useContext, useState } from "react";
+import { React, useContext, useState } from "react";
+import 'antd/dist/antd.css';
+
 import Button from "../Components/UI/Button";
 import { UserContext } from "../Store/UserContext";
+import {  Card,  DatePicker, TimePicker } from "antd";
 
 function AddTournament(props) {
 
@@ -22,12 +24,12 @@ function AddTournament(props) {
     const timeChangedHandler = (time) => {
         setSelectedTime(new Date(time));
     };
-    console.log(userContext);
-    
+    console.log(userContext.user);
     return <>
 
-    {userContext.user.isAdmin && <Card>
-            <form onSubmit={addHandler}>
+{        userContext.user.isAdmin &&         <Card  title="Admin Panel">
+<div >
+             <form onSubmit={addHandler} > 
                 <label>Enter Date  &nbsp;&nbsp;</label>
                 <DatePicker onChange={dateChangedHandler}/>
 
@@ -36,12 +38,12 @@ function AddTournament(props) {
 
                 
                 <label> &nbsp;&nbsp; &nbsp;&nbsp;Time: &nbsp;&nbsp;</label>
-                <TimePicker onChange={timeChangedHandler}/>
+                <TimePicker  onChange={timeChangedHandler}/>
 
                 <Button type="submit" >Add</Button>
+             </form>
+        </div></Card>} 
 
-            </form>
-        </Card>} 
     
     </>
 

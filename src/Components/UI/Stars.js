@@ -6,11 +6,11 @@ function Stars(props) {
 
     const starsDisplay = [];
     if(hasHalfStar) {
-        starsDisplay.push( <img key='6' className='star' src= {process.env.PUBLIC_URL + 'half-star.png'}></img>)
+        starsDisplay.push( <img alt='' key='6' className='star' src= {process.env.PUBLIC_URL + 'half-star.png'}></img>)
     }
 
     for(let i =0 ; i< starsCount;i++){
-        starsDisplay.push( <img key={i} className='star' src='https://cdn-icons-png.flaticon.com/512/276/276020.png'/>  );
+        starsDisplay.push( <img alt='' key={i} className='star' src='https://cdn-icons-png.flaticon.com/512/276/276020.png'/>  );
     }
 
 

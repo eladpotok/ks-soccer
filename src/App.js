@@ -3,7 +3,6 @@ import './App.css';
 import { useEffect, useState } from 'react'
 import TournamentDate from './Components/Menu/TournamentDate';
 import Participants from './Components/Menu/Participants/Participants';
-import Register from './Components/User/Register';
 import Header from './Components/Header/Header';
 import { UserContextProvider } from './Store/UserContext';
 import User from './Components/User/User';
@@ -14,14 +13,6 @@ function App() {
   
   const [isParticipantsScreen, setParticipantsScreen] = useState(null);
 
-  const dummy1 = {
-    date: new Date(2022, 4, 1, 21, 30)
-  };
-
-  const dummy2 = {
-    date: new Date(2022,4, 5, 21, 30)
-  };
-  
 
 
   const goToParticipantsHandler = (id, date, isLocked) => {
@@ -51,7 +42,6 @@ function App() {
   const getTournamentsFromDbHandler = async () => {
     let  tournaments = await getTournaments();
 
-    console.log(tournaments);
     setTournaments(tournaments);
   };
   
@@ -62,7 +52,7 @@ function App() {
         <div>
         {isParticipantsScreen === null &&   
           <div className="App" >
-          {/* { (tournaments === null || tournaments.length === 0) &&<div>no tournaments next</div>} */}
+           { (tournaments === null || tournaments.length === 0) &&<div className='no-tournaments'>no tournaments next</div>} 
           { tournaments && tournaments.map( (data) => 
                       <div >
                         

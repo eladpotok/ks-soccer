@@ -2,12 +2,10 @@ import Card from "../../UI/Card";
 import ParticipantsList from "./ParticipantsList";
 import './Participants.css'
 import getPlayersInTournament, { addPlayerToTournament, lockTournament, openTournament, removePlayerFromTournament } from "../../../Adapters/TournamentPlayersProvider";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 
 function Participants(props) { 
-
-    console.log('participant', props.isLocked);
 
     const [playersReceived, setPlayersReceived] = useState('');
     const [shouldShowJoinButton, setShouldShowJoinButton] = useState(true);
@@ -16,18 +14,18 @@ function Participants(props) {
     const userContext = useContext(UserContext);
 
 
+
+    const getPlayersAsync = async () => {
+        const playersFromDb = await getPlayersInTournament(props.id);
+        setPlayersReceived(playersFromDb);
+    };
+
     useEffect(() => {
         if (!playersReceived) {
             getPlayersAsync();
         }
-      }, [playersReceived]);
+      }, [playersReceived, getPlayersAsync]);
 
-    const getPlayersAsync = async () => {
-        console.log('fetch players from ', props.id);
-        const playersFromDb = await getPlayersInTournament(props.id);
-        setPlayersReceived(playersFromDb);
-        console.log('these are the players', playersFromDb);
-    };
 
     function isAlreadyJoined() {
         return playersReceived.some( player => player.name === userContext.user.username);
