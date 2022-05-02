@@ -13,7 +13,7 @@ function TournamentDate(props) {
     const userContext = useContext(UserContext);
 
     const registerHandler = () => {
-        props.onGoToParticipants(props.id,props.date.date, props.isLocked);
+        props.onGoToParticipants(props.id,props.date.date, props.isLocked, props.teams);
     };
 
     function getDayName(dateStr, locale)

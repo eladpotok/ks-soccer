@@ -1,11 +1,15 @@
 import Card from "../../UI/Card";
 import ParticipantsList from "./ParticipantsList";
 import './Participants.css'
-import getPlayersInTournament, { addPlayerToTournament, lockTournament, openTournament, removePlayerFromTournament } from "../../../Adapters/TournamentPlayersProvider";
+import getPlayersInTournament, { addPlayerToTournament, getTeams, lockTournament, openTournament, removePlayerFromTournament } from "../../../Adapters/TournamentPlayersProvider";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
+import { getDemo, makeGroups } from "../../../Utils/makeGroups";
 
 function Participants(props) { 
+
+
+  
 
     const [playersReceived, setPlayersReceived] = useState('');
     const [shouldShowJoinButton, setShouldShowJoinButton] = useState(true);
@@ -13,7 +17,11 @@ function Participants(props) {
     const [isLocked, setLocked ] = useState(props.isLocked);
     const userContext = useContext(UserContext);
 
-
+    // const teams = getTeams(props.id);
+    // if(teams) {
+    //     console.log('aaaaaaaaaaaaaa', teams)
+    //     props.onShowTeams(teams,props.id)
+    // }
 
     const getPlayersAsync = async () => {
         const playersFromDb = await getPlayersInTournament(props.id);
@@ -79,9 +87,15 @@ function Participants(props) {
         }
     }
 
+    
+    function createTeams() {
+        const teams = makeGroups(getDemo());
+        props.onShowTeams(teams,props.id);
+    }
+
     return (
         <Card className='table'>
-            {playersReceived && <ParticipantsList players={playersReceived} onPlayerRemoved={playerRemovedHandler}/> }
+            {playersReceived && <ParticipantsList allowRemove={true} players={playersReceived} onPlayerRemoved={playerRemovedHandler}/> }
             <div className='footer'>
                 <div>
                     <div>Number of Players: &nbsp;&nbsp;   {playersReceived.length}/20</div>
@@ -91,6 +105,7 @@ function Participants(props) {
                     {!shouldShowJoinButton && <button onClick={leaveToTournamentHandler} className="participants-leave-button">Leave</button>}
                     {!isLocked && userContext.user.isAdmin && <button onClick={lockTournamentHandler} className="participants-lock-button">Lock</button>}
                     {isLocked && userContext.user.isAdmin && <button onClick={openTournamentHandler} className="participants-lock-button">Open</button>}
+                    {userContext.user.isAdmin && <button onClick={createTeams} className="participants-lock-button">Create Teams</button>}
                 </div>}
            </div>
         </Card>

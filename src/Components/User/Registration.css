@@ -1,0 +1,29 @@
+.register-button {
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    padding: 0px 24px;
+    text-align: center;
+    font-size: 14px;
+    margin: 20px 2px;
+    height: 30px;
+    opacity: 1;
+    
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+.register-input {
+    display: flex;
+}
+
+.register-star-input {
+    width: 50px;
+    margin-left: 5px;
+}
+
+.register-card {
+    text-align: left;
+}

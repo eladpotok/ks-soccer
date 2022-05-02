@@ -110,11 +110,27 @@ export async function getTournaments(){
                 id: key,
                 date: new Date(data[key].date),
                 time: new Date(data[key].time),
-                isLocked: data[key].isLocked
+                isLocked: data[key].isLocked,
+                teams: data[key].teams
             }
 
         );
     }
     
     return result;
+}
+
+export async function saveTeams(tournamentId, teams) {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams.json`, {
+        method: 'PUT',
+        body: JSON.stringify(teams)
+    });
+
+    return response.status == 200;
+}
+
+export async function getTeams(tournamentId) {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams.json`);
+    const data = await response.json();
+    return data;
 }

@@ -7,19 +7,34 @@ import Header from './Components/Header/Header';
 import { UserContextProvider } from './Store/UserContext';
 import User from './Components/User/User';
 import AddTournament from './Admin/AddTournament';
-import { addTournament, deleteTournament, getTournaments } from './Adapters/TournamentPlayersProvider';
+import { addTournament, deleteTournament, getTournaments, saveTeams, setTournamentTeamsDistributed } from './Adapters/TournamentPlayersProvider';
+import { makeGroups } from './Utils/makeGroups';
+import TeamsDistribution from './Components/Groups/TeamsDistribution';
 
 function App() {
   
+  
+
   const [isParticipantsScreen, setParticipantsScreen] = useState(null);
+  const [isLoadingTournaments, setLoadingTournaments] = useState(true);
+  const [teamsScreen, setTeamsScreen ] = useState('');
+  
 
+  const goToParticipantsHandler = (id, date, isLocked, teams) => {
+    console.log('app.js, teams = ' , teams);
+    if(teams) {
+      setTeamsScreen(teams);  
+    }
+    else{
+      setTeamsScreen(null);
+      setParticipantsScreen({id, date, isLocked, teams});
+    }
 
-
-  const goToParticipantsHandler = (id, date, isLocked) => {
-    setParticipantsScreen({id, date, isLocked});
   };
   
   const goHomePageHandler = () => {
+    setTeamsScreen(null);
+
     setParticipantsScreen(null);
   };
   
@@ -43,31 +58,41 @@ function App() {
     let  tournaments = await getTournaments();
 
     setTournaments(tournaments);
+    setLoadingTournaments(false);
   };
+
+  async function showTeamsHandler(teams, tournamentId) { 
+    setParticipantsScreen(null);
+    setTeamsScreen(teams);
+    await saveTeams(tournamentId, teams);
+  }
   
   return (
     <UserContextProvider>
       <Header onGoHomePage={goHomePageHandler} />
       <div className='page'>
-        <div>
+        { !isLoadingTournaments && <div className='teams'>
+          { teamsScreen && <TeamsDistribution teams={teamsScreen} ></TeamsDistribution>}
         {isParticipantsScreen === null &&   
           <div className="App" >
            { (tournaments === null || tournaments.length === 0) &&<div className='no-tournaments'>no tournaments next</div>} 
-          { tournaments && tournaments.map( (data) => 
+          { !teamsScreen && tournaments && tournaments.map( (data) => 
                       <div >
                         
-                          <TournamentDate onRemoveDate={tournamentDeletedHandler} onGoToParticipants={goToParticipantsHandler} className='tournament' date={data} id={data.id} isLocked={data.isLocked} ></TournamentDate>
+                          <TournamentDate onRemoveDate={tournamentDeletedHandler} onGoToParticipants={goToParticipantsHandler} className='tournament' date={data} id={data.id} isLocked={data.isLocked} teams={data.teams}></TournamentDate>
                       </div>
                   )}
           </div>}
           {isParticipantsScreen !== null &&   
           <div className='participants' >
-            <Participants date={isParticipantsScreen.date} id={isParticipantsScreen.id} isLocked={isParticipantsScreen.isLocked} />
+            <Participants onShowTeams={showTeamsHandler} date={isParticipantsScreen.date} id={isParticipantsScreen.id} isLocked={isParticipantsScreen.isLocked} />
           </div>}
           <div  >
-            {!isParticipantsScreen && <User />}
+            
           </div>
-        </div>
+        </div>}
+        
+        <div className='footer-page'>{!isParticipantsScreen && <User />}</div>
         <div className='footer-page'><AddTournament  onTournamentAdded={tournamentAddedHandler}/></div>
       </div>
 

@@ -22,7 +22,7 @@ function ParticipantsList(props) {
                             <div className='player-name'>
                                 
                                 {player.name}
-                                {userContext.user.isAdmin && <label className='remove-player' onClick={ ()=> {
+                                {userContext.user.isAdmin && props.allowRemove && <label className='remove-player' onClick={ ()=> {
                                     onRemovePlayer(player.name)
                                 }}>(Remove)</label>}
                                 </div>
