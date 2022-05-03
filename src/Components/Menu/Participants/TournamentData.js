@@ -1,13 +1,13 @@
 import Card from "../../UI/Card";
 import ParticipantsList from "./ParticipantsList";
-import './Participants.css'
+import './TournamentData.css'
 import getPlayersInTournament, { addPlayerToTournament, getTeams, lockTournament, openTournament, removePlayerFromTournament, saveTeams } from "../../../Adapters/TournamentPlayersProvider";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 import { getDemo, makeGroups } from "../../../Utils/makeGroups";
 import { MainPageContext, SCREENS } from "../../../Store/MainPageContext";
 
-function Participants(props) { 
+function TournamentData(props) { 
     
     const mainPageScreenContext = useContext(MainPageContext);
 
@@ -17,14 +17,7 @@ function Participants(props) {
     const [playersReceived, setPlayersReceived] = useState('');
     const [shouldShowJoinButton, setShouldShowJoinButton] = useState(true);
     const [canLeaveOrJoin, setCanLeaveOrJoin ] = useState(false);
-    const [isLocked, setLocked ] = useState(props.isLocked);
     const userContext = useContext(UserContext);
-
-    // const teams = getTeams(props.id);
-    // if(teams) {
-    //     console.log('aaaaaaaaaaaaaa', teams)
-    //     props.onShowTeams(teams,props.id)
-    // }
 
     const getPlayersAsync = async () => {
         const playersFromDb = await getPlayersInTournament(props.id);
@@ -76,21 +69,6 @@ function Participants(props) {
         setPlayersReceived(playersFromDb);
     }
 
-    async function lockTournamentHandler () {
-        const isSuceeded = await lockTournament(props.id);
-        if(isSuceeded) {
-            setLocked(true);
-        }
-    }
-
-    async function openTournamentHandler () {
-        const isSuceeded = await openTournament(props.id);
-        if(isSuceeded) {
-            setLocked(false);
-        }
-    }
-
-    
     async function createTeams() {
         const teams = makeGroups(getDemo());
         await saveTeams(props.id, teams);
@@ -105,10 +83,8 @@ function Participants(props) {
                     <div>Number of Players: &nbsp;&nbsp;   {playersReceived.length}/20</div>
                 </div>
                 {canLeaveOrJoin && <div>
-                    {!isLocked && shouldShowJoinButton && <button onClick={joinToTournamentHandler} className="participants-join-button">Join!</button>}
+                    {shouldShowJoinButton && <button onClick={joinToTournamentHandler} className="participants-join-button">Join!</button>}
                     {!shouldShowJoinButton && <button onClick={leaveToTournamentHandler} className="participants-leave-button">Leave</button>}
-                    {!isLocked && userContext.user.isAdmin && <button onClick={lockTournamentHandler} className="participants-lock-button">Lock</button>}
-                    {isLocked && userContext.user.isAdmin && <button onClick={openTournamentHandler} className="participants-lock-button">Open</button>}
                     {userContext.user.isAdmin && <button onClick={createTeams} className="participants-lock-button">Create Teams</button>}
                 </div>}
            </div>
@@ -119,4 +95,4 @@ function Participants(props) {
 
 
 
-export default Participants;
+export default TournamentData;

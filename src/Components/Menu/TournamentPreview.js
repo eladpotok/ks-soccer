@@ -2,18 +2,24 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../Store/UserContext";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
-import './TournamentDate.css';
+import './TournamentPreview.css';
 
 import { FaTrashRestoreAlt } from 'react-icons/fa';
+import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
+import { deleteTournament, getAllTournaments } from "../../Adapters/TournamentPlayersProvider";
 
-function TournamentDate(props) {
-    
-    
+function TournamentPreview(props) {
     const [isMouseHover, setMouseHover] = useState(false);
+    const mainPageScreenContext = useContext(MainPageContext);
+
     const userContext = useContext(UserContext);
 
     const showTournamentHandler = () => {
-        props.onGoToParticipants(props.id,props.date.date, props.isLocked, props.teams);
+        if (props.teams) {
+            mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: props.teams });
+            return;
+        }
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.TournamentData, data: { id: props.id , date: props.date.date, teams: props.teams } });
     };
 
     function getDayName(dateStr, locale)
@@ -31,7 +37,9 @@ function TournamentDate(props) {
     }
 
     async function removeDateHandler() {
-        props.onRemoveDate(props.id);
+        await deleteTournament(props.id);
+        const tournaments = await getAllTournaments();
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.TournamentPreview, data: tournaments });
     };
     
     return (
@@ -62,4 +70,4 @@ function TournamentDate(props) {
     );
 }
 
-export default TournamentDate;
+export default TournamentPreview;

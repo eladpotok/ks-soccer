@@ -31,9 +31,8 @@ function AddTournament(props) {
     };
     
     return <>
-
-{        userContext.user.isAdmin &&         <Card  title="Admin Panel">
-<div >
+        {userContext.user.isAdmin && <Card  title="Admin Panel">
+            <div >
              <form onSubmit={addHandler} > 
                 <label>Enter Date  &nbsp;&nbsp;</label>
                 <DatePicker onChange={dateChangedHandler}/>
@@ -47,11 +46,9 @@ function AddTournament(props) {
 
                 <Button type="submit" >Add</Button>
              </form>
-        </div></Card>} 
-
-    
+            </div>
+        </Card>} 
     </>
-
 }
 
 export default AddTournament;
