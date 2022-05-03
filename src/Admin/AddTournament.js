@@ -4,17 +4,22 @@ import 'antd/dist/antd.css';
 import Button from "../Components/UI/Button";
 import { UserContext } from "../Store/UserContext";
 import {  Card,  DatePicker, TimePicker } from "antd";
+import { addTournament } from "../Adapters/TournamentPlayersProvider";
+import { MainPageContext, SCREENS } from "../Store/MainPageContext";
 
 function AddTournament(props) {
 
     const userContext = useContext(UserContext);
+    const mainPageScreenContext = useContext(MainPageContext);
 
     let [selectedDate, setSelectedDate] = useState('');
     let [selectedTime, setSelectedTime] = useState(new Date(0,0,0,21,30,0,0));
 
-    const addHandler = (event) => {
+    const addHandler = async (event) => {
         event.preventDefault();
-        props.onTournamentAdded(selectedDate, selectedTime);
+        
+        await addTournament(selectedDate, selectedTime);
+        mainPageScreenContext.onScreenChanged({screen: SCREENS.None});
     };
 
     const dateChangedHandler = (date) => {
@@ -24,7 +29,7 @@ function AddTournament(props) {
     const timeChangedHandler = (time) => {
         setSelectedTime(new Date(time));
     };
-    console.log(userContext.user);
+    
     return <>
 
 {        userContext.user.isAdmin &&         <Card  title="Admin Panel">

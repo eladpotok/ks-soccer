@@ -3,11 +3,12 @@ import {AiTwotoneHome} from 'react-icons/ai';
 import { useContext } from "react";
 import { UserContext } from "../../Store/UserContext";
 import './Header.css'
+import { MainPageContext, SCREENS } from '../../Store/MainPageContext';
 
 function Header(props) {
 
     const userContext = useContext(UserContext);
-
+    const mainPageScreenContext = useContext(MainPageContext);
     let usernameDisplay = 'guest';
     
     if(userContext.user.username) {
@@ -16,11 +17,11 @@ function Header(props) {
 
     const logoutHandler = () => {
         userContext.onLogout();
-        props.onGoHomePage();
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.None });
     };
 
     function homeClickedHandler () {
-        props.onGoHomePage();
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.None });
     }
     
     return (

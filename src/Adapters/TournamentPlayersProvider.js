@@ -98,7 +98,7 @@ export async function addTournament(date, time){
     });
 }
 
-export async function getTournaments(){
+export async function getAllTournaments(){
     const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament.json`);
     const data = await playersFromDb.json();
     

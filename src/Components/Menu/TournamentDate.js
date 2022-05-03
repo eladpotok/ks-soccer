@@ -12,7 +12,7 @@ function TournamentDate(props) {
     const [isMouseHover, setMouseHover] = useState(false);
     const userContext = useContext(UserContext);
 
-    const registerHandler = () => {
+    const showTournamentHandler = () => {
         props.onGoToParticipants(props.id,props.date.date, props.isLocked, props.teams);
     };
 
@@ -53,7 +53,7 @@ function TournamentDate(props) {
                 <div className="time">{props.date.time.getHours().toString().padStart(2, '0')}:{props.date.time.getMinutes().toString().padStart(2, '0')}</div>
 
                 <div className='button-container'>
-                    <Button onClick={registerHandler} className='play-button'>Show</Button>
+                    <Button onClick={showTournamentHandler} className='play-button'>Show</Button>
                 </div>
 
 

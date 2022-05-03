@@ -1,12 +1,15 @@
 import Card from "../../UI/Card";
 import ParticipantsList from "./ParticipantsList";
 import './Participants.css'
-import getPlayersInTournament, { addPlayerToTournament, getTeams, lockTournament, openTournament, removePlayerFromTournament } from "../../../Adapters/TournamentPlayersProvider";
+import getPlayersInTournament, { addPlayerToTournament, getTeams, lockTournament, openTournament, removePlayerFromTournament, saveTeams } from "../../../Adapters/TournamentPlayersProvider";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 import { getDemo, makeGroups } from "../../../Utils/makeGroups";
+import { MainPageContext, SCREENS } from "../../../Store/MainPageContext";
 
 function Participants(props) { 
+    
+    const mainPageScreenContext = useContext(MainPageContext);
 
 
   
@@ -88,9 +91,10 @@ function Participants(props) {
     }
 
     
-    function createTeams() {
+    async function createTeams() {
         const teams = makeGroups(getDemo());
-        props.onShowTeams(teams,props.id);
+        await saveTeams(props.id, teams);
+        mainPageScreenContext.onScreenChanged({screen: SCREENS.Teams, data: teams});
     }
 
     return (
