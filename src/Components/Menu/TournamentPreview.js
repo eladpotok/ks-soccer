@@ -19,13 +19,12 @@ function TournamentPreview(props) {
             mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: props.teams });
             return;
         }
-        mainPageScreenContext.onScreenChanged({ screen: SCREENS.TournamentData, data: { id: props.id , date: props.date.date, teams: props.teams } });
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.TournamentData, data: { id: props.id, date: props.date.date, teams: props.teams } });
     };
 
-    function getDayName(dateStr, locale)
-    {
+    function getDayName(dateStr, locale) {
         var date = dateStr;
-        return date.toLocaleDateString(locale, { weekday: 'long' });        
+        return date.toLocaleDateString(locale, { weekday: 'long' });
     }
 
     function onMouseHover() {
@@ -41,19 +40,19 @@ function TournamentPreview(props) {
         const tournaments = await getAllTournaments();
         mainPageScreenContext.onScreenChanged({ screen: SCREENS.TournamentPreview, data: tournaments });
     };
-    
+
     return (
         <div className='parent' onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>
             <Card>
-                { userContext.user.isAdmin && isMouseHover && <div ><FaTrashRestoreAlt onClick={removeDateHandler} className="trash-icon" /></div> }
+                {userContext.user.isAdmin && isMouseHover && <div ><FaTrashRestoreAlt onClick={removeDateHandler} className="trash-icon" /></div>}
                 <div className="regular-text">{getDayName(props.date.date, 'en-us')}</div>
 
                 <div className="date-rubplic">
-                    <label className="date-label">{props.date.date.getDate().toString().padStart(2,'0')}</label>
-                    <div className="date-rublic-devider"/>
-                    <label  className="date-label">{(props.date.date.getMonth()+1).toString().padStart(2,'0')}</label>
-                    <div className="date-rublic-devider"/>
-                    <label  className="date-label">{props.date.date.getFullYear()}</label> 
+                    <label className="date-label">{props.date.date.getDate().toString().padStart(2, '0')}</label>
+                    <div className="date-rublic-devider" />
+                    <label className="date-label">{(props.date.date.getMonth() + 1).toString().padStart(2, '0')}</label>
+                    <div className="date-rublic-devider" />
+                    <label className="date-label">{props.date.date.getFullYear()}</label>
                 </div>
 
                 <div className="regular-text">Goaltime Kfar-Saba</div>
@@ -63,8 +62,6 @@ function TournamentPreview(props) {
                 <div className='button-container'>
                     <Button onClick={showTournamentHandler} className='play-button'>Show</Button>
                 </div>
-
-
             </Card>
         </div>
     );

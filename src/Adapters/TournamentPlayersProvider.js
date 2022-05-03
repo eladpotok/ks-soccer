@@ -16,10 +16,12 @@ export default async function getPlayersInTournament(tournamentId) {
 }
 
 export async function addPlayerToTournament(player, tournamentId) {
-    await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/.json`, {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/.json`, {
         method: 'POST',
         body: JSON.stringify(player)
     });
+
+    return response.status == 200;
 };
 
 export async function lockTournament(tournamentId) {
