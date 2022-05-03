@@ -1,11 +1,11 @@
 import Card from "../../UI/Card";
 import ParticipantsList from "./ParticipantsList";
-import './TournamentData.css'
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 import { getDemo, makeGroups } from "../../../Utils/makeGroups";
 import { MainPageContext, SCREENS } from "../../../Store/MainPageContext";
 import getPlayersInTournament, { addPlayerToTournament, removePlayerFromTournament, saveTeams } from "../../../Adapters/TournamentPlayersProvider";
+import './TournamentData.css'
 
 const BUTTON_TYPE = {
     leave: 'leave',

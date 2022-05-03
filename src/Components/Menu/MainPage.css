@@ -1,0 +1,22 @@
+.tournament {
+    width: 300px;
+}
+
+
+.no-tournaments {
+    position: absolute;
+    top: 30%;
+    font-size:40px;
+    left: 50%;
+    color: white;
+    transform: translate(-50%, -30%);
+    padding: 10px;
+    background-color: #282c34a5;
+    border-radius: 20px;
+}
+
+.tournamentData {
+  width: 600px;
+  margin: auto;
+  height: 100%;
+} 

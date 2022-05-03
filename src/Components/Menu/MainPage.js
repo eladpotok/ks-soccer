@@ -4,6 +4,7 @@ import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
 import TeamsDistribution from "../Groups/TeamsDistribution";
 import TournamentData from "./Participants/TournamentData";
 import TournamentPreview from "./TournamentPreview";
+import './MainPage.css'
 
 function MainPage(props) {
     const mainPageScreenContext = useContext(MainPageContext);
@@ -23,7 +24,7 @@ function MainPage(props) {
     const screenToCreatorMapper = {
         'teams': () => getTeamsScreen(screenState.data),
         'tournamentData': () => getTournamentDataScreen(screenState.data),
-        'tournamentPreview': () => getTournamentPreviewScreen(mainPageScreenContext, screenState.data),
+        'tournamentPreview': () => getTournamentPreviewScreen(screenState.data),
         'none': () => { <div /> }
     };
 
@@ -33,7 +34,7 @@ function MainPage(props) {
 
 }
 
-function getTournamentPreviewScreen(mainPageScreenContext, data) {
+function getTournamentPreviewScreen(data) {
     if (data.length === 0) {
         return <div className='no-tournaments'>no tournaments next</div>
     }
@@ -51,7 +52,7 @@ function getTournamentDataScreen(data) {
     async function teamsCreatedHandler(teams, tournamentId) {
         await saveTeamsForTournamentInDb(tournamentId, teams);
     };
-    return <TournamentData onTeamsCreated={teamsCreatedHandler} date={data.date} id={data.id} isLocked={data.isLocked} />
+    return  <div className='tournamentData'><TournamentData  onTeamsCreated={teamsCreatedHandler} date={data.date} id={data.id} isLocked={data.isLocked} /></div> 
 }
 
 function getTeamsScreen(teams) {

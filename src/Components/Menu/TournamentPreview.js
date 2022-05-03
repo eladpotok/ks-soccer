@@ -11,7 +11,6 @@ import { deleteTournament, getAllTournaments } from "../../Adapters/TournamentPl
 function TournamentPreview(props) {
     const [isMouseHover, setMouseHover] = useState(false);
     const mainPageScreenContext = useContext(MainPageContext);
-
     const userContext = useContext(UserContext);
 
     const showTournamentHandler = () => {
