@@ -4,6 +4,7 @@ export const SCREENS = {
     Teams: 'teams',
     TournamentData: 'tournamentData',
     TournamentPreview: 'tournamentPreview',
+    PlayersList: 'playersList',
     None: 'none'
 };
 

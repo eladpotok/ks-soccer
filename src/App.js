@@ -3,19 +3,19 @@ import './App.css';
 import Header from './Components/Header/Header';
 import { UserContextProvider } from './Store/UserContext';
 import User from './Components/User/User';
-import AddTournament from './Admin/AddTournament';
 import MainPage from './Components/Menu/MainPage';
 import { MainPageContextProvider } from './Store/MainPageContext';
+import AdminPanel from './Components/Admin/AdminPanel';
 
 function App() {
   return (
     <UserContextProvider>
       <MainPageContextProvider>
-        <Header/>
+        <Header />
         <div className='page'>
-              <MainPage/>
+          <MainPage />
           <div className='footer-page'> <User /></div>
-          <div className='footer-page'><AddTournament /></div> 
+          <div className='footer-page'><AdminPanel /></div>
         </div>
       </MainPageContextProvider>
     </UserContextProvider>

@@ -1,17 +1,7 @@
-import { getDefaultNormalizer } from "@testing-library/react";
-
 export function makeGroups(players) {
-    let starsSum = 0;
-    players.forEach(player=> {
-        starsSum += player.stars;
-    });
-
-    const avg = starsSum / players.length;
-
     players.sort(function(a, b){return b.stars - a.stars});
 
     const length = players.length;
-
     
     const groupA = [];
     const groupB = [];
@@ -39,27 +29,22 @@ export function makeGroups(players) {
     for( let i = length ; i < 15 ; i++) {
         const groupToAddTo = groups[i % 3];
         groupToAddTo.push({ name: '[empty]'});
-       
-        // if(i % 3 == 2){
-        //     groups = [groupB, groupC, groupA];
-        // }
     }
 
-    return groups;
+    let colors = [ 'blue', 'orange' , 'green' ] 
+    
+    function getColor() {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        colors = colors.filter ( c => c !== color);
+        return color;
+    }
 
-}
+    return groups.map( gr=> (
+      { players: gr ,
+        color: getColor()
+       }
+    ) );
 
-function getAvg(group) {
-    if(group.length === 0) return 0;
-
-    let starsSum = 0;
-    group.forEach(player=> {
-        starsSum += player.star;
-    });
-
-
-    const avg = starsSum / group.length;
-    return avg;
 }
 
 export function getDemo() {

@@ -7,11 +7,12 @@ function Group(props) {
 
     const groupPlayers = props.players;
 
+    const classes = props.className;
 
     return (
         
-        <>
-            <Card className="group">
+        <div className={classes}>
+            <Card >
                 <div className="group-header">
                     {props.color === 'blue' && <div className='shirt-blue'><FaTshirt className="shirt-icon"/></div>}
                     {props.color === 'orange' && <div className='shirt-orange'><FaTshirt className="shirt-icon"/></div>}
@@ -20,7 +21,7 @@ function Group(props) {
                 </div>
                 <ParticipantsList allowRemove={false} players={groupPlayers}/>
             </Card>
-        </>
+        </div>
     );
 
 }

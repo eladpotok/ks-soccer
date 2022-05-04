@@ -1,5 +1,4 @@
 .tournament {
-    width: 300px;
 }
 
 
@@ -13,10 +12,24 @@
     padding: 10px;
     background-color: #282c34a5;
     border-radius: 20px;
+    text-align: center;
 }
 
 .tournamentData {
-  width: 600px;
+  max-width: 600px;
   margin: auto;
   height: 100%;
 } 
+
+.teams {
+  margin: 50px;
+}
+
+
+.page {
+  display:  flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+

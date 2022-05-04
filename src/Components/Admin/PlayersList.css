@@ -1,0 +1,15 @@
+.player-row {
+    display: flex;
+}
+
+.player-name {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.player-star {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+}

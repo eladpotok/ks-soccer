@@ -1,6 +1,6 @@
 .parent {
     padding: 25px;
-    width: 400px;
+    max-width: 400px;
     display: flex;
     text-align: center;
 }
@@ -131,5 +131,5 @@
 
 .regular-text {
     font-size: 33px;
-    color: white;
+    color: rgb(255, 255, 255);
 }

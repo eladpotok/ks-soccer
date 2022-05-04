@@ -1,0 +1,17 @@
+.footer-page {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+.label-link {
+    cursor: pointer;
+
+}
+
+.label-link:hover {
+    text-decoration: underline;;
+}

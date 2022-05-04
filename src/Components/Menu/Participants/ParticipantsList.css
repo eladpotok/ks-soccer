@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
 
-.divider {
+.divider-player-list {
     height: 1px;
     margin: 3px;
-    border: rgba(199, 199, 199, 0.5);
+    border: rgba(28, 24, 24, 0.1);
     border-width: 0px;
     border-top-width: 1px;
     border-style: solid;

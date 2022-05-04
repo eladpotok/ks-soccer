@@ -1,3 +1,4 @@
+import { isMobile } from "react-device-detect";
 import { makeGroups } from "../../Utils/makeGroups";
 import Group from "./Group";
 
@@ -6,19 +7,17 @@ import './TeamsDistribution.css'
 function TeamsDistribution(props) {
 
     const teams = props.teams;
-    let colors = [ 'blue', 'orange' , 'green' ] 
+
+    const groupContainerClass = !isMobile ? 'teams-card' :  null;
+    const groupClass  = !isMobile ? 'group-desktop' :  'group-mobile';
     
-    function getColor() {
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        colors = colors.filter ( c => c != color);
-        return color;
-    }
+    console.log('isMobile', isMobile);
 
     return (
-        <div className="teams-card">
-            <Group className='group' players={teams[0]} teamId='A' color={getColor()}/>
-            <Group className='group' players={teams[1]} teamId='B' color={getColor()}/>
-            <Group className='group' players={teams[2]} teamId='C' color={getColor()}/>
+        <div className={groupContainerClass}>
+            <Group className={groupClass}  players={teams[0].players} teamId='A' color={teams[0].color}/>
+            <Group className={groupClass} players={teams[1].players} teamId='B' color={teams[1].color}/>
+            <Group className={groupClass}  players={teams[2].players} teamId='C' color={teams[2].color}/>
         </div>
     );
 

@@ -10,10 +10,7 @@
     color: rgb(255, 183, 0);
 } 
 
-.group {
-    margin: 40px;
-    width: 300px;
-}
+
 
 .group-header {
     display: flex;

@@ -1,10 +1,9 @@
+import { getDemo } from "../Utils/makeGroups";
 
 
 export default async function getPlayersInTournament(tournamentId) {
     const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players.json`);
     const dataToReturn = await playersFromDb.json();
-    
-    console.log('getPlayersInTournament', dataToReturn);
 
     const players = [];
     for (const key in dataToReturn) {
@@ -37,6 +36,16 @@ export async function openTournament(tournamentId) {
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/isLocked.json`, {
         method: 'PUT',
         body: JSON.stringify(false)
+    });
+
+    return response.status == 200;
+};
+
+
+export async function setPlayerStars(playerId, stars) {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}/stars.json`, {
+        method: 'PUT',
+        body: JSON.stringify(stars)
     });
 
     return response.status == 200;
@@ -122,6 +131,25 @@ export async function getAllTournaments(){
     return result;
 }
 
+
+export async function getAllPlayers(){
+    const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players.json`);
+    const data = await playersFromDb.json();
+
+    const result = [];
+    for (const key in data) {
+        result.push (
+            {
+                id: data[key].id,
+                isAdmin: data[key].isAdmin,
+                name: data[key].name,
+                stars: data[key].stars
+            }
+        );
+    }
+    return result;
+}
+
 export async function saveTeams(tournamentId, teams) {
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams.json`, {
         method: 'PUT',
@@ -136,3 +164,4 @@ export async function getTeams(tournamentId) {
     const data = await response.json();
     return data;
 }
+

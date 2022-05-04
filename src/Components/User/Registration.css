@@ -5,10 +5,10 @@
     padding: 0px 24px;
     text-align: center;
     font-size: 14px;
-    margin: 20px 2px;
+    margin-top: 20px;
+    margin-left: 10px;
     height: 30px;
     opacity: 1;
-    
     display: inline-block;
     text-decoration: none;
     cursor: pointer;
@@ -19,6 +19,10 @@
     display: flex;
 }
 
+.item-title-mobile {
+    margin-top: 10px;
+}
+
 .register-star-input {
     width: 50px;
     margin-left: 5px;
@@ -26,4 +30,8 @@
 
 .register-card {
     text-align: left;
+}
+
+.level-slider {
+    margin-left: 10px;
 }

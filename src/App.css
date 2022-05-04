@@ -1,18 +1,11 @@
 .App {
   text-align: center;
   display: flex;
-  
 }
 
-.tournament {
-  width: 300px;
-}
 
-.participants {
-  width: 600px;
-  margin: auto;
-  height: 100%;
-} 
+
+
 
 .register {
   margin: auto;
@@ -30,18 +23,7 @@
   justify-content: space-between;
 }
 
-.no-tournaments {
-  position: absolute;
-  top: 30%;
-  font-size:40px;
-  left: 50%;
-  color: white;
-  transform: translate(-50%, -30%);
-  padding: 10px;
-  background-color: #282c34a5;
-  border-radius: 20px;
 
-}
 
 .teams {
   margin: 20px

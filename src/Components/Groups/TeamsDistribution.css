@@ -4,7 +4,23 @@
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-    
 }
 
 
+.group-desktop {
+    width: 300px;
+    margin: 20px;
+}
+
+
+.group-mobile {
+    margin-top: 20px;
+
+}
+
+.teams-card-mobile {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}

@@ -21,5 +21,15 @@ function Stars(props) {
     )
 }
 
+export function SingleStar(props) {
+
+    const classes = 'star ' + props.className;
+    return (
+        <>
+            <img alt='' key='6' className={classes} src= {process.env.PUBLIC_URL + 'https://cdn-icons-png.flaticon.com/512/276/276020.png'}></img>
+        </>
+    )
+}
+
 
 export default Stars;
