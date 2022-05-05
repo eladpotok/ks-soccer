@@ -111,6 +111,7 @@ function User() {
                                 <Slider
                                     min={1}
                                     max={5}
+                                    step={0.5}
                                     onChange={onLevelChangedHandler}
                                     style={{ width: '150px' }}
                                     value={typeof levelState === 'number' ? levelState : 0}
@@ -120,6 +121,7 @@ function User() {
                                 <InputNumber
                                     min={1}
                                     max={5}
+                                    step={0.5}
                                     style={{ marginLeft: '40px', width: '50px' }}
                                     value={levelState}
                                     onChange={onLevelChangedHandler}
