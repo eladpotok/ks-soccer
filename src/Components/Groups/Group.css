@@ -10,6 +10,18 @@
     color: rgb(255, 183, 0);
 } 
 
+.shirt-black {
+    color: rgb(0, 0, 0);
+} 
+
+.shirt-red {
+    color: rgb(150, 4, 4);
+} 
+
+.shirt-yellow {
+    color: rgb(255, 249, 64);
+} 
+
 
 
 .group-header {

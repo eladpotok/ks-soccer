@@ -1,6 +1,7 @@
 import { Skeleton } from 'antd';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../Store/UserContext';
+import { checkIsAdmin } from '../../../Utils/commonUtils';
 import Stars from '../../UI/Stars';
 import './ParticipantsList.css'
 
@@ -23,7 +24,7 @@ function ParticipantsList(props) {
                         <div className='row'>
                             <div className='player-name'>
                                 {player.name}
-                                {userContext.user.isAdmin && props.allowRemove && <label className='remove-player' onClick={ ()=> {
+                                {checkIsAdmin(userContext.user.isAdmin) && props.allowRemove && <label className='remove-player' onClick={ ()=> {
                                     onRemovePlayer(player.name)
                                 }}>(Remove)</label>}
                                 </div>
@@ -37,7 +38,7 @@ function ParticipantsList(props) {
                 
                 )}
             </div>
-            <div className='hard-divider'/>
+         
         </>
     );
 

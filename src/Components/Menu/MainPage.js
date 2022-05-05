@@ -7,6 +7,7 @@ import TournamentPreview from "./TournamentPreview";
 import './MainPage.css'
 import PlayersList from "../Admin/PlayersList";
 import { List } from "antd";
+import { isMobile } from "react-device-detect";
 
 function MainPage(props) {
     const mainPageScreenContext = useContext(MainPageContext);
@@ -66,7 +67,15 @@ function getTournamentDataScreen(data) {
 }
 
 function getTeamsScreen(teams) {
-    return <div className='teams'><TeamsDistribution teams={teams} /></div>
+    const groupContainerClass = !isMobile ? 'teams-card' :  null;
+
+    return (
+    <div className={groupContainerClass}>
+        <div className='teams'><TeamsDistribution teams={teams.teamsHigh} isHigh={true} /></div>
+        <div className='teams'><TeamsDistribution teams={teams.teamsLow} isHigh={false}/></div>
+    </div>
+        
+    );
 }
 
 export default MainPage;

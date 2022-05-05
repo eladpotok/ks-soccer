@@ -8,14 +8,18 @@ function TeamsDistribution(props) {
 
     const teams = props.teams;
 
-    const groupContainerClass = !isMobile ? 'teams-card' :  null;
-    const groupClass  = !isMobile ? 'group-desktop' :  'group-mobile';
-    
+    const groupClass = !isMobile ? 'group-desktop' : 'group-mobile';
+
     return (
-        <div className={groupContainerClass}>
-            <Group className={groupClass}  players={teams[0].players} teamId='A' color={teams[0].color}/>
-            <Group className={groupClass} players={teams[1].players} teamId='B' color={teams[1].color}/>
-            <Group className={groupClass}  players={teams[2].players} teamId='C' color={teams[2].color}/>
+        <div>
+            <div className="distribution-title">
+                {props.isHigh ? "סבירים" : "גרועים"}
+            </div>
+            <div style={{ display: 'flex' }} >
+                <Group className={groupClass} players={teams[0].players} teamId='A' color={teams[0].color} />
+                <Group className={groupClass} players={teams[1].players} teamId='B' color={teams[1].color} />
+                <Group className={groupClass} players={teams[2].players} teamId='C' color={teams[2].color} />
+            </div>
         </div>
     );
 

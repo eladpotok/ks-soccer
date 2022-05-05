@@ -1,4 +1,12 @@
-export function makeGroups(players) {
+const COLORS_POOL = [ 'blue', 'orange' , 'green' , 'red', 'black', 'yellow' ] 
+
+export const GROUP_TYPE = {
+  low: 'low',
+  high: 'high'
+}
+
+
+export function makeGroups(players, type) {
     players.sort(function(a, b){return b.stars - a.stars});
 
     const length = players.length;
@@ -31,8 +39,8 @@ export function makeGroups(players) {
         groupToAddTo.push({ name: '[empty]'});
     }
 
-    let colors = [ 'blue', 'orange' , 'green' ] 
-    
+    let colors =   type === GROUP_TYPE.high ? COLORS_POOL.slice(0,3) : COLORS_POOL.slice(3, 6)
+    console.log('colors are' , colors);
     function getColor() {
         const color = colors[Math.floor(Math.random() * colors.length)];
         colors = colors.filter ( c => c !== color);
@@ -64,6 +72,7 @@ export function getDemo() {
         {
           name: 'assaf nachmani',
           stars: 3,
+          preference: 'high'
         },
         {
           name: 'alon',
@@ -100,10 +109,45 @@ export function getDemo() {
         {
           name: 'eli yutman',
           stars: 3,
+          preference: 'high'
         },
         {
           name: 'dan giald',
           stars: 3,
+          preference: 'high'
+        },
+        {
+          name: 'matias',
+          stars: 3.5,
+          preference: 'low'
+        },
+        {
+          name: 'tal norman',
+          stars: 2.5,
+        },
+        {
+          name: 'nir hazam',
+          stars: 2.5,
+        },
+        {
+          name: 'oren',
+          stars: 3,
+        },
+        {
+          name: 'avi aviel',
+          stars: 3,
+        },
+        {
+          name: 'moty omur',
+          stars: 3,
+        },
+        {
+          name: 'igor almogi',
+          stars: 3,
+        },
+        {
+          name: 'aviram tsur',
+          stars: 2.5,
         },
       ];
 }

@@ -28,7 +28,7 @@
     padding-bottom:5px;
     padding-left: 15px;
     padding-right: 15px;
-    margin-left: 10px;
+    margin-right: 10px;
     border: 1px solid rgb(255, 255, 255);
     color: white;
     font-weight: bold;
@@ -44,4 +44,14 @@
     border: 1px solid rgb(255, 255, 255);
     color: white;
     font-weight: bold;
+}
+
+.players-list-container {
+    display: flex;
+    margin: auto; 
+}
+.players-list-card {
+    justify-content: 'space-between';
+    width: 400px;
+    margin: 40px;
 }

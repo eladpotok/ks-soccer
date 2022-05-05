@@ -16,10 +16,25 @@
 }
 
 .tournamentData {
-  max-width: 600px;
-  margin: auto;
   height: 100%;
+  display: flex;
+  margin: auto;
 } 
+
+.teams-card {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+
+
+.tournament-data-card {
+  margin: auto;
+  max-width: 400px;
+  height: 400px;
+}
 
 .teams {
   margin: 50px;

@@ -9,14 +9,14 @@ function Group(props) {
 
     const classes = props.className;
 
+    const shirtClass = 'shirt-' + props.color;
+
     return (
         
         <div className={classes}>
             <Card >
                 <div className="group-header">
-                    {props.color === 'blue' && <div className='shirt-blue'><FaTshirt className="shirt-icon"/></div>}
-                    {props.color === 'orange' && <div className='shirt-orange'><FaTshirt className="shirt-icon"/></div>}
-                    {props.color === 'green' && <div className='shirt-green'><FaTshirt className="shirt-icon"/></div>}
+                    <div className={shirtClass}><FaTshirt className="shirt-icon"/></div>
                     &nbsp;&nbsp; Team {props.teamId}
                 </div>
                 <ParticipantsList allowRemove={false} players={groupPlayers}/>

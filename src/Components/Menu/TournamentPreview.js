@@ -7,6 +7,7 @@ import './TournamentPreview.css';
 import { FaTrashRestoreAlt } from 'react-icons/fa';
 import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
 import { deleteTournament, getAllTournaments } from "../../Adapters/TournamentPlayersProvider";
+import { checkIsAdmin } from "../../Utils/commonUtils";
 
 function TournamentPreview(props) {
     const [isMouseHover, setMouseHover] = useState(false);
@@ -43,7 +44,7 @@ function TournamentPreview(props) {
     return (
         <div className='parent' onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>
             <Card>
-                {userContext.user.isAdmin && isMouseHover && <div ><FaTrashRestoreAlt onClick={removeDateHandler} className="trash-icon" /></div>}
+                {checkIsAdmin(userContext.user.isAdmin) && isMouseHover && <div ><FaTrashRestoreAlt onClick={removeDateHandler} className="trash-icon" /></div>}
                 <div className="regular-text">{getDayName(props.date.date, 'en-us')}</div>
 
                 <div className="date-rubplic">
