@@ -68,7 +68,7 @@ function TournamentData(props) {
     }
 
     async function createTeams() {
-        const teams = makeGroups(getDemo());
+        const teams = makeGroups(players);
         await saveTeams(props.id, teams);
         mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: teams });
     }

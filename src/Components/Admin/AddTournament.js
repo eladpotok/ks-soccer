@@ -11,9 +11,10 @@ function AddTournament(props) {
 
     let [selectedDate, setSelectedDate] = useState('');
     let [selectedTime, setSelectedTime] = useState(new Date(0, 0, 0, 21, 30, 0, 0));
+    const [tournamentTitle, setTournamentTitle] = useState('');
 
     const addHandler = async (event) => {
-        await addTournament(selectedDate, selectedTime);
+        await addTournament(selectedDate, selectedTime, tournamentTitle);
         mainPageScreenContext.onScreenChanged({ screen: SCREENS.None });
     };
 
@@ -25,9 +26,18 @@ function AddTournament(props) {
         setSelectedTime(new Date(time));
     };
 
+    const titleChangedHandler = (title) => {
+        setTournamentTitle(title.target.value);
+    };
+
     return <>
         <div >
             <form onSubmit={addHandler} >
+                <label className="rublic-item">Title  &nbsp;&nbsp;</label>
+                <input className="rublic-item" onChange={titleChangedHandler}></input>
+
+                <br></br>
+
                 <label className="rublic-item">Enter Date  &nbsp;&nbsp;</label>
                 <DatePicker className="rublic-item" onChange={dateChangedHandler} />
 

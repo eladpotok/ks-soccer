@@ -54,7 +54,7 @@ function TournamentPreview(props) {
                     <label className="date-label">{props.date.date.getFullYear()}</label>
                 </div>
 
-                <div className="regular-text">Goaltime Kfar-Saba</div>
+                <div className="regular-text">{props.title}</div>
 
                 <div className="time">{props.date.time.getHours().toString().padStart(2, '0')}:{props.date.time.getMinutes().toString().padStart(2, '0')}</div>
 

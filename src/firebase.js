@@ -43,20 +43,20 @@ export const signInWithGoogle = async () => {
     const user = res.user;
     const q = query(collection(db, "users"), where("uid", "==", user.uid));
     const docs = await getDocs(q);
-    console.log('1')
     if (docs.docs.length === 0) {
-      console.log('2')
-      await addDoc(collection(db, "users"), {
+      const addedUser =  {
         uid: user.uid,
         name: user.displayName,
         authProvider: "google",
         email: user.email,
-      });
+      };
+      await addDoc(collection(db, "users"), addedUser);
+      console.log('addedUser', addedUser);
+      return addedUser;
     }
-    else {
-      return { res: 'user-exist',  user }
-    }
-    return res.user;
+    
+    console.log('user', user);
+    return user;
   } catch (err) {
     console.error(err);
     alert(err.message);

@@ -1,8 +1,9 @@
 .parent {
     padding: 25px;
     max-width: 400px;
-    display: flex;
+    width: 350px;
     text-align: center;
+    
 }
 
 .tournament {

@@ -79,7 +79,7 @@ export async function registerNewPlayer(player) {
             return Error('user with the same name already exist');
         }
     }
-
+    console.log('resgisterNewPlayer', player);
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${player.id}.json`, {
         method: 'PUT',
         body: JSON.stringify({name: player.name, stars: player.stars, id: player.id })
@@ -101,11 +101,11 @@ export async function deleteTournament(tournamentId) {
 }
 
 
-export async function addTournament(date, time){
+export async function addTournament(date, time, title){
     const id = date.toDateString();
-    await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${id}.json`, {
+    await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${id+title}.json`, {
         method: 'PUT',
-        body: JSON.stringify({date: date, time: time, id: id})
+        body: JSON.stringify({date: date, time: time, id: id, title: title})
     });
 }
 
@@ -121,7 +121,7 @@ export async function getAllTournaments(){
                 id: key,
                 date: new Date(data[key].date),
                 time: new Date(data[key].time),
-                isLocked: data[key].isLocked,
+                title: data[key].title,
                 teams: data[key].teams
             }
 
@@ -141,13 +141,20 @@ export async function getAllPlayers(){
         result.push (
             {
                 id: data[key].id,
-                isAdmin: data[key].isAdmin,
+                isAdmin: data[key].isAdmin ? data[key].isAdmin : false,
                 name: data[key].name,
                 stars: data[key].stars
             }
         );
     }
     return result;
+}
+
+
+export async function getPlayerById(id){
+    const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${id}.json`);
+    const data = await playersFromDb.json();
+    return data;
 }
 
 export async function saveTeams(tournamentId, teams) {

@@ -11,8 +11,6 @@ function TeamsDistribution(props) {
     const groupContainerClass = !isMobile ? 'teams-card' :  null;
     const groupClass  = !isMobile ? 'group-desktop' :  'group-mobile';
     
-    console.log('isMobile', isMobile);
-
     return (
         <div className={groupContainerClass}>
             <Group className={groupClass}  players={teams[0].players} teamId='A' color={teams[0].color}/>

@@ -8,6 +8,7 @@ import { FaUserEdit } from 'react-icons/fa';
 
 
 import './AdminPanel.css'
+import { checkIsAdmin, checkIsAdminForLegacy } from '../../Utils/commonUtils';
 
 function AdminPanel(props) {
     const userContext = useContext(UserContext);
@@ -19,8 +20,10 @@ function AdminPanel(props) {
     }
     const { Panel } = Collapse;
 
+
+
     return (<>
-        {userContext.user.isAdmin &&
+        { checkIsAdmin(userContext.user.isAdmin) &&
             <Collapse>
                 <Panel header="Admin Panel">
                     <Card >
@@ -33,6 +36,7 @@ function AdminPanel(props) {
     </>);
 
 }
+
 
 
 export default AdminPanel;

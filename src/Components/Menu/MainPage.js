@@ -45,14 +45,13 @@ function getTournamentPreviewScreen(data) {
     }
 
 
-    return <List
-        bordered
-        grid='{gutter: 1, column: 1}'
-        itemLayout="vertical"
-        dataSource={data}
-        renderItem={item => (
+    return <List 
+                grid='{gutter: 1, column: 1}'
+                itemLayout="vertical"
+                dataSource={data}
+                renderItem={item => (
             <List.Item>
-                <TournamentPreview date={item} key={item.id} id={item.id} teams={item.teams} />
+                <TournamentPreview title={item.title} date={item} key={item.id} id={item.id} teams={item.teams} />
             </List.Item>
         )}
     />

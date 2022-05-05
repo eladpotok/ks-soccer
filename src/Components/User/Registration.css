@@ -17,6 +17,7 @@
 
 .register-input {
     display: flex;
+    margin-top: 20px;
 }
 
 .item-title-mobile {

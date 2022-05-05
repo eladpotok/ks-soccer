@@ -8,7 +8,8 @@ export const UserContext = React.createContext({
     },
     onLogin: (username, level, isAdmin) => {},
     onLogout: () => {},
-    isAuthorized: false
+    isAuthorized: false,
+    isInDb: false,
 });
 
 
@@ -27,7 +28,7 @@ export const UserContextProvider = (props) => {
         setAdmin(isAdmin);
         localStorage.setItem('my_name', username);
         localStorage.setItem('my_level', level);
-        localStorage.setItem('isAdmin', isAdmin);
+        localStorage.setItem('isAdmin', isAdmin ? isAdmin : false);
         setAuthorize(true);
     };
 
