@@ -1,4 +1,5 @@
 export function checkIsAdminForLegacy(isAdmin) {
+    if(isAdmin && typeof(isAdmin) === 'boolean') return true;
     if(isAdmin && isAdmin === 'undefined') return false;
     if(isAdmin && isAdmin.toLowerCase() === 'false') return false;
     if(isAdmin && isAdmin.toLowerCase() === 'true') return true;

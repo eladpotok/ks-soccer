@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { login, registerNewPlayer } from "../../Adapters/TournamentPlayersProvider";
 import { auth, signInWithGoogle } from "../../firebase";
-import Registration from "./Registration";
 import { UserContext } from '../../Store/UserContext'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Button, Card, Input, Modal, Skeleton, Tooltip, Col, InputNumber, Row, Slider } from "antd";
