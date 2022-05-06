@@ -35,7 +35,7 @@ function User() {
             return;
         }
 
-        userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin);
+        userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin, loginUserResponse.preference, loginUserResponse.id);
         setLoading(false);
     };
 
@@ -48,7 +48,7 @@ function User() {
         }
 
         const loginUserResponse = await login(uid);
-        userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin);
+        userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin, loginUserResponse.preference, loginUserResponse.id);
         setLoading(false);
     };
 

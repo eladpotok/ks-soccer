@@ -1,7 +1,10 @@
-import { getDemo } from "../Utils/makeGroups";
+import { getDemo, moveTo } from "../Utils/makeGroups";
 
 
 export default async function getPlayersInTournament(tournamentId) {
+
+  
+
     const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players.json`);
     const dataToReturn = await playersFromDb.json();
 
@@ -15,6 +18,7 @@ export default async function getPlayersInTournament(tournamentId) {
 }
 
 export async function addPlayerToTournament(player, tournamentId) {
+
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/.json`, {
         method: 'POST',
         body: JSON.stringify(player)
@@ -46,6 +50,16 @@ export async function setPlayerStars(playerId, stars) {
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}/stars.json`, {
         method: 'PUT',
         body: JSON.stringify(stars)
+    });
+
+    return response.status == 200;
+};
+
+export async function forcePlayerToMove(playerId, levelType) {
+
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}/forceType.json`, {
+        method: 'PUT',
+        body: JSON.stringify(levelType)
     });
 
     return response.status == 200;

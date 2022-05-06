@@ -56,99 +56,128 @@ export function makeGroups(players, type) {
 }
 
 export function getDemo() {
-    return [
-        {
-          name: 'elad peleg',
-          stars: 5,
-        },
-        {
-          name: 'ofir',
-          stars: 4,
-        },
-        {
-          name: 'gilad',
-          stars: 3.5,
-        },
-        {
-          name: 'assaf nachmani',
-          stars: 3,
-          preference: 'high'
-        },
-        {
-          name: 'alon',
-          stars: 3.5,
-        },
-        {
-          name: 'ben elkayam',
-          stars: 3.5,
-        },
-        {
-          name: 'tommy',
-          stars: 3.5,
-        },
-        {
-          name: 'dor',
-          stars: 4,
-        },
-        {
-          name: 'david',
-          stars: 5,
-        },
-        {
-          name: 'niv',
-          stars: 3,
-        },
-        {
-          name: 'avihai',
-          stars: 4,
-        },
-        {
-          name: 'aviv ben eliezer',
-          stars: 3.5,
-        },
-        {
-          name: 'eli yutman',
-          stars: 3,
-          preference: 'high'
-        },
-        {
-          name: 'dan giald',
-          stars: 3,
-          preference: 'high'
-        },
-        {
-          name: 'matias',
-          stars: 3.5,
-          preference: 'low'
-        },
-        {
-          name: 'tal norman',
-          stars: 2.5,
-        },
-        {
-          name: 'nir hazam',
-          stars: 2.5,
-        },
-        {
-          name: 'oren',
-          stars: 3,
-        },
-        {
-          name: 'avi aviel',
-          stars: 3,
-        },
-        {
-          name: 'moty omur',
-          stars: 3,
-        },
-        {
-          name: 'igor almogi',
-          stars: 3,
-        },
-        {
-          name: 'aviram tsur',
-          stars: 2.5,
-        },
-      ];
+    return DEMO_USERS;
 }
 
+export function moveTo(id, type) {
+   DEMO_USERS.find( pl => pl.id === id).forceType = type;
+}
+
+export const DEMO_USERS = [
+  {
+    name: 'elad peleg',
+    stars: 5,
+    id: 1
+  },
+  {
+    name: 'ofir',
+    stars: 4,
+    id: 2
+  },
+  {
+    name: 'gilad',
+    stars: 3.5,
+    id: 3
+  },
+  {
+    name: 'assaf nachmani',
+    stars: 3,
+    preference: 'high',
+    id: 4
+  },
+  {
+    name: 'alon',
+    stars: 3.5,
+    id: 5
+  },
+  {
+    name: 'ben elkayam',
+    stars: 3.5,
+    id: 6
+  },
+  {
+    name: 'tommy',
+    stars: 3.5,
+    id: 7
+  },
+  {
+    name: 'dor',
+    stars: 4,
+    id: 8
+  },
+  {
+    name: 'david',
+    stars: 5,
+    id: 9
+  },
+  {
+    name: 'niv',
+    stars: 3,
+    id: 10
+  },
+  {
+    name: 'avihai',
+    stars: 4,
+    id: 11
+  },
+  {
+    name: 'aviv ben eliezer',
+    stars: 3.5,
+    id: 12
+  },
+  {
+    name: 'eli yutman',
+    stars: 3,
+    preference: 'high',
+    id: 13
+  },
+  {
+    name: 'dan giald',
+    stars: 3,
+    preference: 'high',
+    id: 14
+  },
+  {
+    name: 'matias',
+    stars: 3.5,
+    preference: 'low',
+    forceType: 'high',
+    id: 15
+  },
+  {
+    name: 'tal norman',
+    stars: 2.5,
+    id: 16
+  },
+  {
+    name: 'nir hazam',
+    stars: 2.5,
+    preference: 'low',
+    id: 17
+  },
+  {
+    name: 'oren',
+    stars: 3,
+    id: 18
+  },
+  {
+    name: 'avi aviel',
+    stars: 3,
+    id: 19
+  },
+  {
+    name: 'moty omur',
+    stars: 3,
+    id: 20
+  },
+  {
+    name: 'igor almogi',
+    stars: 3,
+    id: 21
+  },
+  {
+    name: 'aviram tsur',
+    stars: 2.5,
+    id: 22
+  },
+];

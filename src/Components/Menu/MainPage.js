@@ -67,7 +67,7 @@ function getTournamentDataScreen(data) {
 }
 
 function getTeamsScreen(teams) {
-    const groupContainerClass = !isMobile ? 'teams-card' :  null;
+    const groupContainerClass = !isMobile ? 'teams-card' :  'teams-card-mobile';
 
     return (
     <div className={groupContainerClass}>

@@ -4,9 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 import { getDemo, GROUP_TYPE, makeGroups } from "../../../Utils/makeGroups";
 import { MainPageContext, SCREENS } from "../../../Store/MainPageContext";
-import getPlayersInTournament, { addPlayerToTournament, removePlayerFromTournament, saveTeams } from "../../../Adapters/TournamentPlayersProvider";
+import getPlayersInTournament, { addPlayerToTournament, forcePlayerToMove, removePlayerFromTournament, saveTeams } from "../../../Adapters/TournamentPlayersProvider";
 import './TournamentData.css'
-import { BrowserView, MobileView } from "react-device-detect";
+import { BrowserView, isMobile, MobileView } from "react-device-detect";
 import { checkIsAdmin, getPlayersByLevels } from "../../../Utils/commonUtils";
 
 const BUTTON_TYPE = {
@@ -53,7 +53,7 @@ function TournamentData(props) {
     const joinTournamentHandler = async () => {
         setLoading(true);
         setButtonType('');
-        const isSucceeded = await addPlayer(players.length + 1, userContext.user, props.id);
+        const isSucceeded = await addPlayer(userContext.user.id, userContext.user, props.id);
         if (isSucceeded) {
             const playersFromDb = await getPlayersInTournament(props.id);
             setPlayers(playersFromDb);
@@ -78,25 +78,31 @@ function TournamentData(props) {
     async function createTeams() {
         const teamsHigh = makeGroups(playersBylevels.highLevel, GROUP_TYPE.high);
         const teamsLow = makeGroups(playersBylevels.lowLevel, GROUP_TYPE.low);
-        await saveTeams(props.id, teams);
+        await saveTeams(props.id, {teamsLow, teamsHigh});
         mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: {teamsLow, teamsHigh} });
     }
 
 
+    async function addToAnotherLevelHandler(playerId, levelType) {
+        await forcePlayerToMove(playerId, levelType);
+        updatePlayers();
+    }
 
+    const cardContainerClasses = isMobile ? 'players-list-container-mobile' : 'players-list-container';
+    const cardClasses = isMobile ? 'players-list-card-mobile' : 'players-list-card';
 
     return (
         <>
             <div style={{
                 position: 'absolute', left: '50%', transform: 'translate(-50%, 0%)'
             }}>
-                <div className="players-list-container">
-                    <Card className="players-list-card">
-                        {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onPlayerRemoved={playerRemovedHandler} />}
+                <div className={cardContainerClasses}>
+                    <Card className={cardClasses}>
+                        {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => {addToAnotherLevelHandler(playerId, GROUP_TYPE.high)}} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
                         <div>{getNumberOfPlayersLabel('low', playersBylevels)}</div>
                     </Card>
-                    <Card className="players-list-card">
-                        {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onPlayerRemoved={playerRemovedHandler} />}
+                    <Card className={cardClasses}>
+                        {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => {addToAnotherLevelHandler(playerId, GROUP_TYPE.low)}} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low}  />}
                         <div>{getNumberOfPlayersLabel('high', playersBylevels)}</div>
                     </Card>
                 </div>
@@ -136,9 +142,9 @@ function isCurrentUserJoined(players, currentUsername) {
     return players.some(player => player.name === currentUsername);
 }
 
-async function addPlayer(players, user, id) {
+async function addPlayer(userId, user, id) {
     const status = await addPlayerToTournament({
-        id: players.length + 1,
+        id: userId,
         name: user.username,
         stars: user.level,
         preference: user.preference
