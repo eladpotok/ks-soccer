@@ -20,9 +20,12 @@ export function getPlayersByLevels(players) {
 
     const lowLevel = players.filter(pl => pl.forceType === 'low');
     const highLevel = players.filter(pl => pl.forceType === 'high');
+
     players = players.filter(pl => lowLevel.every(t => t.id !== pl.id) && highLevel.every(t => t.id !== pl.id));
     lowLevel.push(...players.filter(pl => pl.preference === 'low' && lowLevel.every(t => t.id !== pl.id)))
     highLevel.push(...players.filter(pl => pl.preference === 'high' && highLevel.every(t => t.id !== pl.id)))
+
+    
     players = players.filter(pl => lowLevel.every(t => t.id !== pl.id) && highLevel.every(t => t.id !== pl.id));
     lowLevel.push(...players.filter(pl => pl.stars < 3.5 && lowLevel.every(t => t.id !== pl.id)));
     highLevel.push(...players.filter(pl => pl.stars >= 3.5 && highLevel.every(t => t.id !== pl.id)));

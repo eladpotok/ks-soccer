@@ -84,7 +84,7 @@ function TournamentData(props) {
 
 
     async function addToAnotherLevelHandler(playerId, levelType) {
-        await forcePlayerToMove(playerId, levelType);
+        await forcePlayerToMove(playerId, levelType,props.id);
         updatePlayers();
     }
 
@@ -97,11 +97,14 @@ function TournamentData(props) {
                 position: 'absolute', left: '50%', transform: 'translate(-50%, 0%)'
             }}>
                 <div className={cardContainerClasses}>
+
                     <Card className={cardClasses}>
+                        <div className='tournament-data-title'>גרועים</div>
                         {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => {addToAnotherLevelHandler(playerId, GROUP_TYPE.high)}} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
                         <div>{getNumberOfPlayersLabel('low', playersBylevels)}</div>
                     </Card>
                     <Card className={cardClasses}>
+                    <div className='tournament-data-title'>סבירים</div>
                         {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => {addToAnotherLevelHandler(playerId, GROUP_TYPE.low)}} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low}  />}
                         <div>{getNumberOfPlayersLabel('high', playersBylevels)}</div>
                     </Card>

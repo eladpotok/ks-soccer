@@ -19,8 +19,8 @@ export default async function getPlayersInTournament(tournamentId) {
 
 export async function addPlayerToTournament(player, tournamentId) {
 
-    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/.json`, {
-        method: 'POST',
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${player.id}.json`, {
+        method: 'PUT',
         body: JSON.stringify(player)
     });
 
@@ -55,9 +55,9 @@ export async function setPlayerStars(playerId, stars) {
     return response.status == 200;
 };
 
-export async function forcePlayerToMove(playerId, levelType) {
-
-    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}/forceType.json`, {
+export async function forcePlayerToMove(playerId, levelType, tournamentId) {
+    
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${playerId}/forceType.json`, {
         method: 'PUT',
         body: JSON.stringify(levelType)
     });
