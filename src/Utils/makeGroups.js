@@ -8,7 +8,6 @@ export const GROUP_TYPE = {
 
 export function makeGroups(players, type) {
     players.sort(function(a, b){return b.stars - a.stars});
-
     const length = players.length;
     
     const groupA = [];

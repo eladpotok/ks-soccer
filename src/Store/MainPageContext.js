@@ -5,6 +5,7 @@ export const SCREENS = {
     TournamentData: 'tournamentData',
     TournamentPreview: 'tournamentPreview',
     PlayersList: 'playersList',
+    EditUser: 'editUser',
     None: 'none'
 };
 

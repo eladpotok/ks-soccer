@@ -1,11 +1,12 @@
-import { Button, Skeleton } from 'antd';
+import { Button, Checkbox, Skeleton } from 'antd';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../Store/UserContext';
-import { checkIsAdmin } from '../../../Utils/commonUtils';
+import { checkIsAdmin, sortAscending } from '../../../Utils/commonUtils';
 import Stars from '../../UI/Stars';
 import './ParticipantsList.css'
 import { BsArrowRightSquare, BsArrowLeftSquare } from 'react-icons/bs'
 import { GROUP_TYPE } from '../../../Utils/makeGroups';
+import { setPlayerPaid } from '../../../Adapters/TournamentPlayersProvider';
 
 function ParticipantsList(props) {
 
@@ -21,6 +22,12 @@ function ParticipantsList(props) {
         props.onMovePlayer(playerId);
     }
 
+    const onCheckboxChangedHandler = async(playerId, e) => {
+        props.onPlayerPaid(playerId, e.target.checked);
+    }
+
+
+
     return (
         <>
             <div>
@@ -28,9 +35,10 @@ function ParticipantsList(props) {
                     <Skeleton style={{ height: '10px' }} loading={props.isLoading} active>
                         <div key={player.id}>
                             <div className='row'>
-                                <div className='player-name'>
+                                <div className='player-name' style={{color: props.color}}>
+                                    {checkIsAdmin(userContext.user.isAdmin) && props.showPaid && <Checkbox defaultChecked={player.paid} onChange={(e) => {onCheckboxChangedHandler(player.id, e);}}> </Checkbox>}
                                     {player.name}
-                                    {checkIsAdmin(userContext.user.isAdmin) && props.allowRemove && <label className='remove-player' onClick={() => {
+                                    {checkIsAdmin(userContext.user.isAdmin) && props.allowRemove && <label className='remove-player' style={{color: '#916016', fontWeight: 'bold'}} onClick={() => {
                                         onRemovePlayer(player.name)
                                     }}>(Remove)</label>}
                                 </div>

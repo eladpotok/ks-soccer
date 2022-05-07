@@ -6,8 +6,10 @@ import TournamentData from "./Participants/TournamentData";
 import TournamentPreview from "./TournamentPreview";
 import './MainPage.css'
 import PlayersList from "../Admin/PlayersList";
-import { List } from "antd";
+import { List, Modal } from "antd";
 import { isMobile } from "react-device-detect";
+import UserInfoEdit from "../User/UserInfoEdit";
+import UserEditorWrapper from "../User/UserEditorWrapper";
 
 function MainPage(props) {
     const mainPageScreenContext = useContext(MainPageContext);
@@ -29,6 +31,7 @@ function MainPage(props) {
         'tournamentData': () => getTournamentDataScreen(screenState.data),
         'tournamentPreview': () => getTournamentPreviewScreen(screenState.data),
         'playersList': () => getPlayersScreen(screenState.data),
+        'editUser': () => getEditUserScreen(screenState.data),
         'none': () => { <div /> }
     };
 
@@ -56,6 +59,14 @@ function getTournamentPreviewScreen(data) {
             </List.Item>
         )}
     />
+}
+
+function getEditUserScreen(data) {
+
+
+    return <div>
+        <UserEditorWrapper/>
+    </div>
 }
 
 function getTournamentDataScreen(data) {

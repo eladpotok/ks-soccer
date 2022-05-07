@@ -34,6 +34,17 @@
     font-weight: bold;
 }
 
+
+.participants-sort-button {
+    background-color: rgba(255, 167, 53, 0.82);
+    border-radius: 8px;
+    margin-right: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
 .participants-leave-button {
     background-color: rgba(255, 53, 63, 0.82);
     border-radius: 8px;
@@ -73,4 +84,19 @@
     color: white;
     font-size: 20px;
     text-decoration: underline;
+}
+
+.footer-card {
+   margin-left: 40px; 
+   margin-right: 40px;
+
+}
+
+.footer-card-divider {
+    margin-left: 5px;
+    margin-right: 5px;
+    border: rgba(255, 255, 255, 0.5);
+    border-width: 0px;
+    border-right-width: 1px;
+    border-style: solid;
 }

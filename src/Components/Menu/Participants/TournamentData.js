@@ -4,10 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 import { getDemo, GROUP_TYPE, makeGroups } from "../../../Utils/makeGroups";
 import { MainPageContext, SCREENS } from "../../../Store/MainPageContext";
-import getPlayersInTournament, { addPlayerToTournament, forcePlayerToMove, removePlayerFromTournament, saveTeams } from "../../../Adapters/TournamentPlayersProvider";
+import getPlayersInTournament, { addPlayerToTournament, forcePlayerToMove, removePlayerFromTournament, saveTeams, setPlayerPaid } from "../../../Adapters/TournamentPlayersProvider";
 import './TournamentData.css'
 import { BrowserView, isMobile, MobileView } from "react-device-detect";
-import { checkIsAdmin, getPlayersByLevels } from "../../../Utils/commonUtils";
+import { checkIsAdmin, getPlayersByLevels, sortAscending } from "../../../Utils/commonUtils";
+import { AiOutlineSortAscending } from 'react-icons/ai';
+import { BsSortNumericDownAlt } from 'react-icons/bs';
+import { Button } from "antd";
 
 const BUTTON_TYPE = {
     leave: 'leave',
@@ -22,6 +25,8 @@ function TournamentData(props) {
     const [playersBylevels, setPlayersByLevels] = useState({});
     const [buttonType, setButtonType] = useState('');
     const [isLoading, setLoading] = useState(false);
+
+
 
 
     async function updatePlayers() {
@@ -65,7 +70,7 @@ function TournamentData(props) {
 
     const leaveTournamentHandler = async () => {
         setLoading(true);
-        await removePlayerFromTournament(userContext.user.username, props.id);
+        await removePlayerFromTournament(userContext.user.id, props.id);
         updatePlayers();
         setLoading(false);
     };
@@ -78,15 +83,34 @@ function TournamentData(props) {
     async function createTeams() {
         const teamsHigh = makeGroups(playersBylevels.highLevel, GROUP_TYPE.high);
         const teamsLow = makeGroups(playersBylevels.lowLevel, GROUP_TYPE.low);
-        await saveTeams(props.id, {teamsLow, teamsHigh});
-        mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: {teamsLow, teamsHigh} });
+        await saveTeams(props.id, { teamsLow, teamsHigh });
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: { teamsLow, teamsHigh } });
     }
 
 
     async function addToAnotherLevelHandler(playerId, levelType) {
-        await forcePlayerToMove(playerId, levelType,props.id);
+        await forcePlayerToMove(playerId, levelType, props.id);
         updatePlayers();
     }
+
+    async function playerPaidHandler(playerId, paid) {
+        console.log(playerId, paid);
+        await setPlayerPaid(playerId, paid, props.id);
+
+    }
+
+    const sortbyStars = () => {
+        playersBylevels.lowLevel.sort(function (a, b) { return b.stars - a.stars });
+        playersBylevels.highLevel.sort(function (a, b) { return b.stars - a.stars });
+        setPlayersByLevels({ lowLevel: playersBylevels.lowLevel, highLevel: playersBylevels.highLevel });
+    };
+
+    const sortbyAB = () => {
+        console.log(players)
+        playersBylevels.lowLevel.sort(function (a, b) { return a.name.localeCompare(b.name) });
+        playersBylevels.highLevel.sort(function (a, b) { return a.name.localeCompare(b.name) });
+        setPlayersByLevels({ lowLevel: playersBylevels.lowLevel, highLevel: playersBylevels.highLevel });
+    };
 
     const cardContainerClasses = isMobile ? 'players-list-container-mobile' : 'players-list-container';
     const cardClasses = isMobile ? 'players-list-card-mobile' : 'players-list-card';
@@ -100,19 +124,26 @@ function TournamentData(props) {
 
                     <Card className={cardClasses}>
                         <div className='tournament-data-title'>גרועים</div>
-                        {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => {addToAnotherLevelHandler(playerId, GROUP_TYPE.high)}} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
+                        {players && <ParticipantsList showPaid={false} onPlayerPaid={playerPaidHandler} color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.high) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
                         <div>{getNumberOfPlayersLabel('low', playersBylevels)}</div>
                     </Card>
                     <Card className={cardClasses}>
-                    <div className='tournament-data-title'>סבירים</div>
-                        {players && <ParticipantsList isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => {addToAnotherLevelHandler(playerId, GROUP_TYPE.low)}} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low}  />}
+                        <div className='tournament-data-title'>סבירים</div>
+                        {players && <ParticipantsList showPaid={false} onPlayerPaid={playerPaidHandler} color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.low) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low} />}
                         <div>{getNumberOfPlayersLabel('high', playersBylevels)}</div>
                     </Card>
                 </div>
-                <div style={{display: 'flex' , flexDirection: 'row-reverse' }}>
-                    <div style={{marginRight: '40px',  height: '100px', }}>{getButtonToShow()}</div>
-                    <div >{checkIsAdmin(userContext.user.isAdmin) && <button onClick={createTeams} className='participants-lock-button'>Create Teams</button>}</div>
-                </div>
+                <Card className='footer-card'>
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                        <div >{getButtonToShow()}</div>
+                        <div >{checkIsAdmin(userContext.user.isAdmin) && <button onClick={createTeams} className='participants-lock-button'>Create Teams</button>}</div>
+                        <div>
+                            <button onClick={sortbyAB} className='participants-sort-button'><AiOutlineSortAscending /></button>
+                            <button onClick={sortbyStars} className='participants-sort-button'><BsSortNumericDownAlt /></button>
+                            <label className="footer-card-divider"></label>
+                        </div>
+                    </div>
+                </Card>
             </div>
         </>
     )
@@ -129,11 +160,11 @@ function getPlayersLength(players) {
 
 function getNumberOfPlayersLabel(levelType, playersBylevels) {
     const number = getPlayersLengthByLevel(levelType, playersBylevels);
-    if(number === 0) {
-        return (<div style={{color: 'white', display: 'flex', alignItems: 'center' ,}}>No Players Yet</div>)
+    if (number === 0) {
+        return (<div style={{ color: 'white', display: 'flex', alignItems: 'center', }}>No Players Yet</div>)
     }
 
-    return (<div style={{color: 'white'}}>Number of Players: &nbsp;&nbsp;   {number}/20</div>)
+    return (<div style={{ color: 'white' }}>Number of Players: &nbsp;&nbsp;   {number}/20</div>)
 
 }
 

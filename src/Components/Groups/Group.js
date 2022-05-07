@@ -19,7 +19,7 @@ function Group(props) {
                     <div className={shirtClass}><FaTshirt className="shirt-icon"/></div>
                     &nbsp;&nbsp; Team {props.teamId}
                 </div>
-                <ParticipantsList allowRemove={false} players={groupPlayers}/>
+                <ParticipantsList showPaid={true} color='black' allowRemove={false} players={groupPlayers}/>
             </Card>
         </div>
     );

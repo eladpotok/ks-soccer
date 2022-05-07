@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getPlayerById } from "../Adapters/TournamentPlayersProvider";
+import { getPlayerById, savePreferenceUser } from "../Adapters/TournamentPlayersProvider";
 import { auth } from "../firebase";
 
 export const UserContext = React.createContext({
@@ -12,7 +12,6 @@ export const UserContext = React.createContext({
     onLogin: (username, level, isAdmin, preference, id) => {},
     onLogout: () => {},
     isAuthorized: false,
-    isInDb: false,
 });
 
 
@@ -69,6 +68,7 @@ export const UserContextProvider = (props) => {
         setAuthorize(false);
         setKeepMeLogin(false);
     };
+
 
     return <UserContext.Provider value={{
         user: user,

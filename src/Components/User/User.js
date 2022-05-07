@@ -5,19 +5,19 @@ import { UserContext } from '../../Store/UserContext'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Button, Card, Input, Modal, Skeleton, Tooltip, Col, InputNumber, Row, Slider } from "antd";
 import { isMobile } from "react-device-detect";
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import UserInfoEdit from "./UserInfoEdit";
 
 
 function User() {
     const userContext = useContext(UserContext);
 
+    const [playerName, setPlayerName] = useState('');
+    const [preference, setPreference] = useState('low');
+    const [levelState, setLevelState] = useState(1);
+
     const [isLoading, setLoading] = useState(false);
     const [inFirstStepState, setFirstStepState] = useState(true);
-    const [playerName, setPlayerName] = useState('');
-    const [levelState, setLevelState] = useState(1);
     const [uid, setUid] = useState('');
-
-
 
     async function loginHandler() {
         setLoading(true);
@@ -39,9 +39,23 @@ function User() {
         setLoading(false);
     };
 
+
+    const onLevelChangedHandler = value => {
+        setLevelState(value);
+    };
+
+    const playerNameChangedHandler = value => {
+        setPlayerName(value.target.value);
+    };
+
+    const onRadioChangedHandler = e => {
+        const value = e.target.value;
+        setPreference(value);
+    };
+
     async function registerHandler() {
         setLoading(true);
-        const isSuceeded = await registerNewPlayer({ name: playerName, stars: levelState, id: uid })
+        const isSuceeded = await registerNewPlayer({ name: playerName, stars: levelState, id: uid, preference: preference })
         if (!isSuceeded) {
             setLoading(false);
             return;
@@ -52,83 +66,30 @@ function User() {
         setLoading(false);
     };
 
-    const onLevelChangedHandler = value => {
-        setLevelState(value);
-    };
-
-    const playerNameChangedHandler = value => {
-        setPlayerName(value.target.value);
-    };
-
-
-    const registerInputClass = isMobile ? null : 'register-input';
-    const levelLabelClass = isMobile ? 'item-title-mobile' : 'item-title';
-
-
     return (
         <>
             {<Modal title="Hey Guest" closable={false}
                 visible={!userContext.isAuthorized}
 
-                footer={inFirstStepState ?
-                    <Button
-                        key="login"
-                        type="primary"
-                        loading={isLoading}
-                        onClick={loginHandler}>
-                        Login with Google
-                    </Button> :
-                    <Button
-                        loading={isLoading}
-                        onClick={registerHandler}
-                        type='primary'
-                        className='register-button'>Register</Button>
+                footer={  inFirstStepState ? <Button
+                    key="login"
+                    type="primary"
+                    loading={isLoading}
+                    onClick={loginHandler}>
+                    Login with Google
+                </Button> :  <Button
+                    key="register"
+                    type="primary"
+                    loading={isLoading}
+                    onClick={registerHandler}>
+                    Register
+                </Button>
+                   
                 }
 
             >
                 {!userContext.isAuthorized && <div>Please authorize yourself by Google</div>}
-                {!inFirstStepState && <div>This is your first time, Please fill your info</div>}
-                {!inFirstStepState && <div className={registerInputClass}>
-                    <div>
-                        <div className='item-title'>Name:</div>
-                        <Input
-                            onChange={playerNameChangedHandler}
-                            placeholder="Your username"
-                            prefix={<UserOutlined className="site-form-item-icon" />}
-                            suffix={
-                                <Tooltip title="Enter your name as it will be displayed">
-                                    <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-                                </Tooltip>
-                            }
-                        />
-                    </div>
-                    <div>
-                        <div className={levelLabelClass}>Level:&nbsp;&nbsp;</div>
-
-                        <Row className="level-slider">
-                            <Col span={12}>
-                                <Slider
-                                    min={1}
-                                    max={5}
-                                    step={0.5}
-                                    onChange={onLevelChangedHandler}
-                                    style={{ width: '150px' }}
-                                    value={typeof levelState === 'number' ? levelState : 0}
-                                />
-                            </Col>
-                            <Col span={4}>
-                                <InputNumber
-                                    min={1}
-                                    max={5}
-                                    step={0.5}
-                                    style={{ marginLeft: '40px', width: '50px' }}
-                                    value={levelState}
-                                    onChange={onLevelChangedHandler}
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-                </div>}
+                {!inFirstStepState && <UserInfoEdit title='This is your first time, Please fill your info' playerName={playerName} levelState={levelState} preference={preference} onPlayerNameChanged={playerNameChangedHandler} onLevelChanged={onLevelChangedHandler} onRadioChanged={onRadioChangedHandler} uid={uid}/>}
             </Modal>}
         </>
     );

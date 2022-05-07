@@ -55,6 +55,15 @@ export async function setPlayerStars(playerId, stars) {
     return response.status == 200;
 };
 
+export async function savePreferenceUser(playerId, preference) {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}/preference.json`, {
+        method: 'PUT',
+        body: JSON.stringify(preference)
+    });
+
+    return response.status == 200;
+};
+
 export async function forcePlayerToMove(playerId, levelType, tournamentId) {
     
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${playerId}/forceType.json`, {
@@ -65,23 +74,35 @@ export async function forcePlayerToMove(playerId, levelType, tournamentId) {
     return response.status == 200;
 };
 
+export async function setPlayerPaid(playerId, paid, tournamentId) {
+    
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${playerId}/paid.json`, {
+        method: 'PUT',
+        body: JSON.stringify(paid)
+    });
 
-export async function removePlayerFromTournament(playerName, tournamentId) {
+    return response.status == 200;
+};
+
+
+export async function removePlayerFromTournament(userId, tournamentId) {
 
     let playerFromDbToRemove = null;
-    const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players.json`);
-    const data = await playersFromDb.json();
-    for (const key in data) {
-        console.log(data[key].name.toLowerCase() , playerName)
-        if(data[key].name.toLowerCase() === playerName.toLowerCase() ) {
-            playerFromDbToRemove = key;
-            break;
-        }
-    }
-
-    const response =  await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${playerFromDbToRemove}.json`, {
-        method: 'DELETE',
+    const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${userId}.json`, {
+        method: 'DELETE'
     });
+    // const data = await playersFromDb.json();
+    // for (const key in data) {
+    //     console.log(data[key].name.toLowerCase() , userId)
+    //     if(data[key].name.toLowerCase() === userId.toLowerCase() ) {
+    //         playerFromDbToRemove = key;
+    //         break;
+    //     }
+    // }
+
+    // const response =  await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${playerFromDbToRemove}.json`, {
+    //     method: 'DELETE',
+    // });
 
 };
 
@@ -96,9 +117,19 @@ export async function registerNewPlayer(player) {
     console.log('resgisterNewPlayer', player);
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${player.id}.json`, {
         method: 'PUT',
-        body: JSON.stringify({name: player.name, stars: player.stars, id: player.id })
+        body: JSON.stringify({name: player.name, stars: player.stars, id: player.id , preference: player.preference })
     });
 
+    return response.status == 200;
+}
+
+export async function editPlayer(playerId, playerName, stars, preference) {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}.json`, {
+        method: 'PUT',
+        body: JSON.stringify({name: playerName, stars: stars, preference: preference })
+    });
+
+    console.log(response)
     return response.status == 200;
 }
 
