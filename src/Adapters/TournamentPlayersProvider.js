@@ -3,7 +3,7 @@ import { getDemo, moveTo } from "../Utils/makeGroups";
 
 export default async function getPlayersInTournament(tournamentId) {
 
-  //  return getDemo();
+  // return getDemo();
 
     const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players.json`);
     const dataToReturn = await playersFromDb.json();
@@ -127,7 +127,7 @@ export async function registerNewPlayer(player) {
 export async function editPlayer(playerId, playerName, stars, preference) {
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/players/${playerId}.json`, {
         method: 'PUT',
-        body: JSON.stringify({name: playerName, stars: stars, preference: preference })
+        body: JSON.stringify({name: playerName, stars: stars, preference: preference , id:playerId})
     });
 
     console.log(response)
@@ -193,6 +193,8 @@ export async function getAllPlayers(){
             }
         );
     }
+
+    
     return result;
 }
 

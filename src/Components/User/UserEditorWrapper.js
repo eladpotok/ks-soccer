@@ -33,7 +33,6 @@ function UserEditorWrapper(props) {
         setLoading(true);
         const isSuceeded = await editPlayer( userContext.user.id ,  playerName,  levelState,  preference )
         if (isSuceeded) {
-            console.log('succeeded');
             const loginUserResponse = await login(userContext.user.id);
             userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin, loginUserResponse.preference, loginUserResponse.id);
             setLoading(false);
