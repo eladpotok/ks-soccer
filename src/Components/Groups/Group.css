@@ -47,3 +47,7 @@
  .move-to-group:hover {
      background-color: rgb(227, 227, 227);
  }
+
+ .move-to-group:disabled {
+    background-color: rgba(187, 187, 187, 0.243);
+}

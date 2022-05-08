@@ -55,7 +55,7 @@ function Group(props) {
                                     {checkIsAdmin(userContext.user.isAdmin) && props.levelType && <label style={{ borderStyle: 'solid', borderRadius: '10px', opacity: '0.7' , borderWidth: '1px', borderColor: 'grey',  marginLeft: '4px', marginRight: '4px' }} />}
                                     
                                     {getOtherTeams(props.teamId).map( (team)=> (
-                                        <button className="move-to-group" onClick={() => movePlayerToTeamHandler(player, props.teamId, team)}>{team}</button>
+                                        <button disabled={groupPlayers.length === 1} className="move-to-group" onClick={() => movePlayerToTeamHandler(player, props.teamId, team)}>{team}</button>
                                     ))}
                                 </div>
                             </div>
