@@ -35,10 +35,10 @@ export function makeGroups(players, type) {
     }
 
 
-     for( let i = length ; i < 15 ; i++) {
-         const groupToAddTo = groups[i % 3];
-         groupToAddTo.push({ name: '[empty]'});
-     }
+    //  for( let i = length ; i < 15 ; i++) {
+    //      const groupToAddTo = groups[i % 3];
+    //      groupToAddTo.push({ name: '[empty]'});
+    //  }
 
     let colors =   type === GROUP_TYPE.high ? COLORS_POOL.slice(0,3) : COLORS_POOL.slice(3, 6)
     console.log('colors are' , colors);
