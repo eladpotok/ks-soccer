@@ -10,8 +10,7 @@
     color: rgb(255, 183, 0);
 } 
 
-.shirt-black {
-    color: rgb(0, 0, 0);
+.shirt-white {
 } 
 
 .shirt-red {
@@ -36,4 +35,15 @@
  .shirt-icon {
      height: 24px;
      width: 24px;
+ }
+
+ .move-to-group {
+     margin-left: 4px;
+     background-color: transparent;
+     border-width: 1px;
+     border-radius: 5px;
+ }
+ 
+ .move-to-group:hover {
+     background-color: rgb(227, 227, 227);
  }

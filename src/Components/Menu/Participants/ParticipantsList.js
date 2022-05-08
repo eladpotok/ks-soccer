@@ -22,12 +22,6 @@ function ParticipantsList(props) {
         props.onMovePlayer(playerId);
     }
 
-    const onCheckboxChangedHandler = async(playerId, e) => {
-        props.onPlayerPaid(playerId, e.target.checked);
-    }
-
-
-
     return (
         <>
             <div>
@@ -36,7 +30,6 @@ function ParticipantsList(props) {
                         <div key={player.id}>
                             <div className='row'>
                                 <div className='player-name' style={{color: props.color}}>
-                                    {checkIsAdmin(userContext.user.isAdmin) && props.showPaid && <Checkbox defaultChecked={player.paid} onChange={(e) => {onCheckboxChangedHandler(player.id, e);}}> </Checkbox>}
                                     {player.name}
                                     {checkIsAdmin(userContext.user.isAdmin) && props.allowRemove && <label className='remove-player' style={{color: '#916016', fontWeight: 'bold'}} onClick={() => {
                                         onRemovePlayer(player.name)

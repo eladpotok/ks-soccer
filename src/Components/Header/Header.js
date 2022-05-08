@@ -7,6 +7,7 @@ import { MainPageContext, SCREENS } from '../../Store/MainPageContext';
 import { Button, Input, Select } from 'antd';
 import { GROUP_TYPE } from '../../Utils/makeGroups';
 import { preferenceDbNameToDisplayName, preferenceDisplayNameToDbName } from '../../Utils/commonUtils';
+import { isMobile } from 'react-device-detect';
 
 const { Option } = Select;
 
@@ -39,7 +40,7 @@ function Header(props) {
     return (
         <div className='panel'>
             <AiTwotoneHome onClick={homeClickedHandler} className='homeIcon' />
-            {userContext.isAuthorized && <BiLogOut onClick={logoutHandler} className='logoutIcon' />} Welcome <div className="username">{usernameDisplay}</div> {userContext.isAuthorized && <div>  &nbsp;&nbsp; (Level: {userContext.user.level})</div>}
+            {userContext.isAuthorized && <BiLogOut onClick={logoutHandler} className='logoutIcon' />} Welcome <div className="username">{usernameDisplay}</div> {userContext.isAuthorized && !isMobile && <div>  &nbsp;&nbsp; (Level: {userContext.user.level})</div>}
             {userContext.isAuthorized && <Button style={{marginTop: '4px', marginLeft: '10px'}} type="dashed" ghost onClick={onEditUserClickedHandler}>Edit</Button>}
         </div>
     );

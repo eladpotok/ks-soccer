@@ -78,12 +78,13 @@ function getTournamentDataScreen(data) {
 }
 
 function getTeamsScreen(teams) {
+    
     const groupContainerClass = !isMobile ? 'teams-card' :  'teams-card-mobile';
 
     return (
     <div className={groupContainerClass}>
-        <div className='teams'><TeamsDistribution teams={teams.teamsHigh} isHigh={true} /></div>
-        <div className='teams'><TeamsDistribution teams={teams.teamsLow} isHigh={false}/></div>
+        <div className='teams'><TeamsDistribution tournamentId={teams.tournamentId} teams={teams.teamsHigh} isHigh={true} /></div>
+        <div className='teams'><TeamsDistribution tournamentId={teams.tournamentId} teams={teams.teamsLow} isHigh={false}/></div>
     </div>
         
     );

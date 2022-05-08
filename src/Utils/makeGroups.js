@@ -1,9 +1,11 @@
-const COLORS_POOL = [ 'blue', 'orange' , 'green' , 'red', 'black', 'yellow' ] 
+const COLORS_POOL = [ 'blue', 'orange' , 'green' , 'red', 'white', 'yellow' ] 
 
 export const GROUP_TYPE = {
   low: 'low',
   high: 'high'
 }
+
+
 
 
 export function makeGroups(players, type) {
@@ -33,10 +35,10 @@ export function makeGroups(players, type) {
     }
 
 
-    for( let i = length ; i < 15 ; i++) {
-        const groupToAddTo = groups[i % 3];
-        groupToAddTo.push({ name: '[empty]'});
-    }
+     for( let i = length ; i < 15 ; i++) {
+         const groupToAddTo = groups[i % 3];
+         groupToAddTo.push({ name: '[empty]'});
+     }
 
     let colors =   type === GROUP_TYPE.high ? COLORS_POOL.slice(0,3) : COLORS_POOL.slice(3, 6)
     console.log('colors are' , colors);
@@ -46,12 +48,14 @@ export function makeGroups(players, type) {
         return color;
     }
 
-    return groups.map( gr=> (
-      { players: gr ,
+    const result = groups.map( gr=> (
+      { players: gr,
         color: getColor()
        }
     ) );
-
+    //const resultAsObject = Object.assign({}, result);
+    console.log('res', result);
+    return result;
 }
 
 export function getDemo() {
@@ -140,7 +144,6 @@ export const DEMO_USERS = [
     name: 'matias',
     stars: 3.5,
     preference: 'low',
-    forceType: 'high',
     id: 15
   },
   {
@@ -149,7 +152,7 @@ export const DEMO_USERS = [
     id: 16
   },
   {
-    name: 'nir hazam',
+    name: 'nir hazan',
     stars: 2.5,
     preference: 'low',
     id: 17
@@ -178,5 +181,35 @@ export const DEMO_USERS = [
     name: 'aviram tsur',
     stars: 2.5,
     id: 22
+  },
+  {
+    name: 'ohad shenker',
+    stars: 3.5,
+    id: 23
+  },
+  {
+    name: 'Itamar Tzabari',
+    stars: 3.5,
+    id: 24
+  },
+  {
+    name: 'Yoav YM7',
+    stars: 3,
+    id: 25
+  },
+  {
+    name: 'yair',
+    stars: 2.5,
+    id: 26
+  },
+  {
+    name: 'יואב בקלצוק ',
+    stars: 3,
+    id: 27
+  },
+  {
+    name: 'israel ',
+    stars: 3,
+    id: 28
   },
 ];

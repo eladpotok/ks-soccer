@@ -16,7 +16,7 @@ function TournamentPreview(props) {
 
     const showTournamentHandler = () => {
         if (props.teams) {
-            mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: props.teams });
+            mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: { teamsHigh: props.teams.teamsHigh, teamsLow: props.teams.teamsLow, tournamentId: props.id} });
             return;
         }
         mainPageScreenContext.onScreenChanged({ screen: SCREENS.TournamentData, data: { id: props.id, date: props.date.date, teams: props.teams } });

@@ -84,7 +84,7 @@ function TournamentData(props) {
         const teamsHigh = makeGroups(playersBylevels.highLevel, GROUP_TYPE.high);
         const teamsLow = makeGroups(playersBylevels.lowLevel, GROUP_TYPE.low);
         await saveTeams(props.id, { teamsLow, teamsHigh });
-        mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: { teamsLow, teamsHigh } });
+        mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: { teamsLow, teamsHigh , tournamentId: props.id } });
     }
 
 

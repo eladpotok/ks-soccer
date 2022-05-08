@@ -3,7 +3,7 @@ import { getDemo, moveTo } from "../Utils/makeGroups";
 
 export default async function getPlayersInTournament(tournamentId) {
 
-  
+  //  return getDemo();
 
     const playersFromDb = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players.json`);
     const dataToReturn = await playersFromDb.json();
@@ -217,3 +217,11 @@ export async function getTeams(tournamentId) {
     return data;
 }
 
+export async function changePlayersInTeam(tournamentId, tournamentLevel, teamId, players){
+
+    await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams/${tournamentLevel}/${teamId}/players.json`,
+    {
+        method: 'PUT',
+        body: JSON.stringify(players)
+    });
+}
