@@ -12,26 +12,32 @@ export function makeGroups(players, type) {
     players.sort(function(a, b){return b.stars - a.stars});
     const length = players.length;
     
-    const groupA = [];
-    const groupB = [];
-    const groupC = [];
+    const groupA = {};
+    const groupB = {};
+    const groupC = {};
 
     let groups = [groupA, groupB, groupC];
 
     let i = 0;
     while( i < length ) {
         
-        groups[0].push(players[i++])
+        addTo(0, i++);
         if(i >= length) break;
-        groups[1].push(players[i++])
+        addTo(1, i++);
         if(i >= length) break;
-        groups[2].push(players[i++])
+        addTo(2, i++);
         if(i >= length) break;
-        groups[2].push(players[i++])
+        addTo(2, i++);
         if(i >= length) break;
-        groups[1].push(players[i++])
+        addTo(1, i++);
         if(i >= length) break;
-        groups[0].push(players[i++])
+        addTo(0, i++);
+    }
+
+    function addTo(groupNumber,index) {
+      const groupToAdd = groups[groupNumber];
+      groupToAdd[players[index].id] = players[index];
+      
     }
 
 

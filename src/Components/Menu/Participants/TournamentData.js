@@ -93,11 +93,6 @@ function TournamentData(props) {
         updatePlayers();
     }
 
-    async function playerPaidHandler(playerId, paid) {
-        console.log(playerId, paid);
-        await setPlayerPaid(playerId, paid, props.id);
-
-    }
 
     const sortbyStars = () => {
         playersBylevels.lowLevel.sort(function (a, b) { return b.stars - a.stars });
@@ -124,12 +119,12 @@ function TournamentData(props) {
 
                     <Card className={cardClasses}>
                         <div className='tournament-data-title'>גרועים</div>
-                        {players && <ParticipantsList showPaid={false} onPlayerPaid={playerPaidHandler} color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.high) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
+                        {players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.high) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
                         <div>{getNumberOfPlayersLabel('low', playersBylevels)}</div>
                     </Card>
                     <Card className={cardClasses}>
                         <div className='tournament-data-title'>סבירים</div>
-                        {players && <ParticipantsList showPaid={false} onPlayerPaid={playerPaidHandler} color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.low) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low} />}
+                        {players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.low) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low} />}
                         <div>{getNumberOfPlayersLabel('high', playersBylevels)}</div>
                     </Card>
                 </div>

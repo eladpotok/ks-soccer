@@ -74,9 +74,10 @@ export async function forcePlayerToMove(playerId, levelType, tournamentId) {
     return response.status == 200;
 };
 
-export async function setPlayerPaid(playerId, paid, tournamentId) {
+export async function setPlayerPaid(playerId, tournamentId, tournamentLevel, teamId, paid) {
+
     
-    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/players/${playerId}/paid.json`, {
+    const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams/${tournamentLevel}/${teamId}/players/${playerId}/paid.json`, {
         method: 'PUT',
         body: JSON.stringify(paid)
     });
@@ -214,11 +215,16 @@ export async function saveTeams(tournamentId, teams) {
 export async function getTeams(tournamentId) {
     const response = await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams.json`);
     const data = await response.json();
+    const result = [];
+    for (const key in data) {
+        result.push (  data[key]
+        );
+    }
+    console.log('result', result);
     return data;
 }
 
 export async function changePlayersInTeam(tournamentId, tournamentLevel, teamId, players){
-
     await fetch(`https://ks-soccer-default-rtdb.firebaseio.com/tournament/${tournamentId}/teams/${tournamentLevel}/${teamId}/players.json`,
     {
         method: 'PUT',

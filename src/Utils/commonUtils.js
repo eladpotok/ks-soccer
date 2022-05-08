@@ -49,3 +49,20 @@ export function preferenceDisplayNameToDbName(level) {
 export function sortAscending(collection, value) {
     collection.sort(function(a, b){return b[value] - a[value]});
 }
+
+export function objectToArray(object) {
+    const result = [];
+    for (const key in object) {
+        result.push (  object[key]
+        );
+    }
+    return result;
+}
+
+export function arrayToObject(array) {
+    const result = {};
+    for (let i = 0 ; i < array.length; i++) {
+        result[array[i].id] = array[i];
+    }
+    return result;
+}
