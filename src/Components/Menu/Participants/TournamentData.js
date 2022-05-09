@@ -8,9 +8,9 @@ import getPlayersInTournament, { addPlayerToTournament, forcePlayerToMove, remov
 import './TournamentData.css'
 import { BrowserView, isMobile, MobileView } from "react-device-detect";
 import { checkIsAdmin, getPlayersByLevels, sortAscending } from "../../../Utils/commonUtils";
-import { AiOutlineSortAscending } from 'react-icons/ai';
+import { AiOutlineSortAscending  } from 'react-icons/ai';
 import { BsSortNumericDownAlt } from 'react-icons/bs';
-import { Button } from "antd";
+import AddingTempPlayer from "../../Admin/AddingTempPlayer";
 
 const BUTTON_TYPE = {
     leave: 'leave',
@@ -76,6 +76,7 @@ function TournamentData(props) {
     };
 
     async function playerRemovedHandler(playerName) {
+        
         await removePlayerFromTournament(playerName, props.id)
         updatePlayers();
     }
@@ -107,6 +108,18 @@ function TournamentData(props) {
         setPlayersByLevels({ lowLevel: playersBylevels.lowLevel, highLevel: playersBylevels.highLevel });
     };
 
+    const tempPlayerAddedHandler = async (uid, tempPlayerName, tempPlayerStars, preference) => {
+        setLoading(true);
+        const isSucceeded = await addPlayer(uid, { id: uid, username: tempPlayerName, level: tempPlayerStars, preference: preference}, props.id);
+        if (isSucceeded) {
+            const playersFromDb = await getPlayersInTournament(props.id);
+            setPlayers(playersFromDb);
+            setPlayersByLevels(getPlayersByLevels(playersFromDb));
+        }
+
+        setLoading(false);
+    };
+
     const cardContainerClasses = isMobile ? 'players-list-container-mobile' : 'players-list-container';
     const cardClasses = isMobile ? 'players-list-card-mobile' : 'players-list-card';
 
@@ -120,11 +133,13 @@ function TournamentData(props) {
                     <Card className={cardClasses}>
                         <div className='tournament-data-title'>גרועים</div>
                         {players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.high) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
+                        {checkIsAdmin(userContext.user.isAdmin) && <AddingTempPlayer tournamentId={props.id} onPlayerAdded={(uid, tempPlayerName, tempPlayerStars) => tempPlayerAddedHandler(uid, tempPlayerName, tempPlayerStars, 'low')}/>}
                         <div>{getNumberOfPlayersLabel('low', playersBylevels)}</div>
                     </Card>
                     <Card className={cardClasses}>
                         <div className='tournament-data-title'>סבירים</div>
                         {players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.low) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low} />}
+                        {checkIsAdmin(userContext.user.isAdmin) && <AddingTempPlayer tournamentId={props.id} onPlayerAdded={(uid, tempPlayerName, tempPlayerStars) => tempPlayerAddedHandler(uid, tempPlayerName, tempPlayerStars, 'high')}/>}
                         <div>{getNumberOfPlayersLabel('high', playersBylevels)}</div>
                     </Card>
                 </div>

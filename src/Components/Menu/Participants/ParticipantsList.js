@@ -32,7 +32,7 @@ function ParticipantsList(props) {
                                 <div className='player-name' style={{color: props.color}}>
                                     {player.name}
                                     {checkIsAdmin(userContext.user.isAdmin) && props.allowRemove && <label className='remove-player' style={{color: '#916016', fontWeight: 'bold'}} onClick={() => {
-                                        onRemovePlayer(player.name)
+                                        onRemovePlayer(player.id)
                                     }}>(Remove)</label>}
                                 </div>
                                 <div>
@@ -71,7 +71,7 @@ export function TournamentDataMobileView(props) {
                             <div className='player-name'>
                                 {player.name}
                                 {userContext.user.isAdmin && props.allowRemove && <label className='remove-player' onClick={() => {
-                                    onRemovePlayer(player.name)
+                                    onRemovePlayer(player.id)
                                 }}>(Remove)</label>}
                             </div>
                             <div>
