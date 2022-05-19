@@ -1,5 +1,4 @@
-import ParticipantsList from "../Menu/Participants/ParticipantsList";
-import {FaTshirt , FaShirtsinbulk} from 'react-icons/fa';
+import {FaTshirt} from 'react-icons/fa';
 import {IoShirtOutline} from 'react-icons/io5';
 import './Group.css'
 import { Card, Checkbox, Skeleton } from "antd";
@@ -7,7 +6,6 @@ import Stars from "../UI/Stars";
 import { useContext } from "react";
 import { UserContext } from "../../Store/UserContext";
 import { checkIsAdmin, objectToArray } from "../../Utils/commonUtils";
-import { changePlayersInTeam, setPlayerPaid } from "../../Adapters/TournamentPlayersProvider";
 
 function Group(props) {
     const userContext = useContext(UserContext);
@@ -37,12 +35,10 @@ function Group(props) {
 
                 <div>
                 {groupPlayers.map((player) =>
-
-                    
                     <Skeleton style={{ height: '10px' }} loading={props.isLoading} active>
                         <div key={player.id}>
                             <div className='row'>
-                                <div className='player-name' >
+                                <div className='group-player-name' >
                                     {checkIsAdmin(userContext.user.isAdmin) && <Checkbox defaultChecked={player.paid} onChange={(e) => {onCheckboxChangedHandler(player.id, props.teamId, e);}}> </Checkbox>}
                                     {player.name}
                                 </div>

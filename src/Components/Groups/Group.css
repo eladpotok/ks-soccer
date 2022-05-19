@@ -25,7 +25,7 @@
     display: flex;
 }
 
-.player-name {
+.group-player-name {
     text-align: left;
     color: black;
     font-style: bold;
@@ -50,4 +50,8 @@
 
  .move-to-group:disabled {
     background-color: rgba(187, 187, 187, 0.243);
+}
+
+.row {
+    display: flex;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getPlayerById, savePreferenceUser } from "../Adapters/TournamentPlayersProvider";
+import { getUserById } from "../Adapters/UsersProvider";
 import { auth } from "../firebase";
 
 export const UserContext = React.createContext({
@@ -26,7 +26,7 @@ export const UserContextProvider = (props) => {
     }
 
     async function fetchUserFromDB() {
-        const data = await getPlayerById(googleUser.uid);
+        const data = await getUserById(googleUser.uid);
         startingUserData = data;
         
         setUserId(googleUser.uid);

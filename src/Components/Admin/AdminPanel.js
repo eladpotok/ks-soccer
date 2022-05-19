@@ -1,42 +1,19 @@
-import { useContext } from 'react';
-import { Card, Collapse, Divider } from 'antd';
-import { getAllPlayers } from '../../Adapters/TournamentPlayersProvider';
-import { MainPageContext, SCREENS } from '../../Store/MainPageContext';
-import { UserContext } from '../../Store/UserContext';
+import { Tabs } from 'antd';
 import AddTournament from './AddTournament';
-import { FaUserEdit } from 'react-icons/fa';
-
-
+import PlayersList from './PlayersList';
 import './AdminPanel.css'
-import { checkIsAdmin, checkIsAdminForLegacy } from '../../Utils/commonUtils';
+
+const { TabPane } = Tabs;
 
 function AdminPanel(props) {
-    const userContext = useContext(UserContext);
-    const mainPageContext = useContext(MainPageContext);
-
-    async function moveToPlayersListPageHandler() {
-        const players = await getAllPlayers();
-        mainPageContext.onScreenChanged({ screen: SCREENS.PlayersList, data: players });
-    }
-    const { Panel } = Collapse;
-
-
-
-    return (<>
-        { checkIsAdmin(userContext.user.isAdmin) &&
-            <Collapse>
-                <Panel header="Admin Panel">
-                    <Card >
-                        <div onClick={moveToPlayersListPageHandler}><FaUserEdit /> <label className='label-link'>Edit Players</label></div>
-                        <Divider />
-                        <div ><AddTournament /></div>
-                    </Card>
-                </Panel>
-            </Collapse>}
-    </>);
-
+    return (<Tabs defaultActiveKey="1">
+        <TabPane tab="Add Tournament" key="1">
+            <AddTournament/>
+        </TabPane>
+        <TabPane tab="Edit Users" key="2">
+            <PlayersList/>
+        </TabPane>
+    </Tabs>);
 }
-
-
 
 export default AdminPanel;

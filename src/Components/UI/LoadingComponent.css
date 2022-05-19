@@ -1,0 +1,11 @@
+.loading-component-card {
+    position: absolute;
+    top: 30%;
+    font-size: 40px;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+}
+

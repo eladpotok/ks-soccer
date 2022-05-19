@@ -1,9 +1,6 @@
-import { Button, Col, Input, InputNumber, Radio, Row, Slider, Tooltip } from "antd";
+import { Col, Input, InputNumber, Radio, Row, Slider, Tooltip } from "antd";
 import { isMobile } from "react-device-detect";
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { useContext, useState } from "react";
-import { login, registerNewPlayer } from "../../Adapters/TournamentPlayersProvider";
-import { UserContext } from "../../Store/UserContext";
 
 function UserInfoEdit(props) {
     const levelLabelClass = isMobile ? 'item-title-mobile' : 'item-title';

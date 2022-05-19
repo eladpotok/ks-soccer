@@ -1,21 +1,30 @@
 import { React, useContext, useState } from "react";
 import 'antd/dist/antd.css';
-import { Button, Card, DatePicker, TimePicker } from "antd";
+import { Button, Card, DatePicker, message, TimePicker } from "antd";
 import { addTournament } from "../../Adapters/TournamentPlayersProvider";
 import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
 import './AddTournament.css'
+import { MdTitle } from 'react-icons/md'
+import {BsCalendarDate} from 'react-icons/bs'
+import {AiOutlineFieldTime} from 'react-icons/ai'
+import { useNavigate } from "react-router-dom";
 
 function AddTournament(props) {
 
-    const mainPageScreenContext = useContext(MainPageContext);
+    const navigate = useNavigate();
 
     let [selectedDate, setSelectedDate] = useState('');
     let [selectedTime, setSelectedTime] = useState(new Date(0, 0, 0, 21, 30, 0, 0));
     const [tournamentTitle, setTournamentTitle] = useState('');
 
     const addHandler = async (event) => {
+
+        if(!selectedDate || !selectedTime || !tournamentTitle)  {
+            message.error('Please insert ');
+        }
+
         await addTournament(selectedDate, selectedTime, tournamentTitle);
-        mainPageScreenContext.onScreenChanged({ screen: SCREENS.None });
+        navigate('/');
     };
 
     const dateChangedHandler = (date) => {
@@ -30,28 +39,29 @@ function AddTournament(props) {
         setTournamentTitle(title.target.value);
     };
 
-    return <>
-        <div >
-            <form onSubmit={addHandler} >
-                <label className="rublic-item">Title  &nbsp;&nbsp;</label>
-                <input className="rublic-item" onChange={titleChangedHandler}></input>
+    return <div className="container">
 
-                <br></br>
+        <form>
+            <h4>Admin</h4>
+            <div className='input-group input-group-icon'>
+                <input type="text" placeholder="Tournament Title" onChange={titleChangedHandler} />
 
-                <label className="rublic-item">Enter Date  &nbsp;&nbsp;</label>
-                <DatePicker className="rublic-item" onChange={dateChangedHandler} />
-
-                <label className="rublic-item">&nbsp;&nbsp; &nbsp;&nbsp;Location: &nbsp;&nbsp;</label>
-                <input className="rublic-item" defaultValue="Goaltime Kfar-Saba"></input>
-
-
-                <label className="rublic-item"> &nbsp;&nbsp; &nbsp;&nbsp;Time: &nbsp;&nbsp;</label>
-                <TimePicker className="rublic-item" onChange={timeChangedHandler} />
-
-                <Button onClick={addHandler} >Add</Button>
-            </form>
-        </div>
-    </>
+                <div className="input-icon"><MdTitle/></div>
+            </div>
+            <div className="input-group input-group-icon">
+                <DatePicker style={{height: '50px' , width: '100%'}}  onChange={dateChangedHandler} />
+                <div className="input-icon"><i className="fa fa-envelope"><BsCalendarDate/></i></div>
+            </div>
+            <div className="input-group input-group-icon">
+                <TimePicker style={{ height: '50px' , width: '100%'}} onChange={timeChangedHandler} />
+                <div className="input-icon"><AiOutlineFieldTime/></div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                <Button  style={{ height: '40px' }} onClick={addHandler} >Add</Button>
+            </div>
+        
+        </form>
+    </div>
 }
 
 export default AddTournament;

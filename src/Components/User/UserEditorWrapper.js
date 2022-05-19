@@ -1,20 +1,20 @@
 import { Button, Modal } from "antd";
 import { useContext, useState } from "react";
-import { editPlayer, login } from "../../Adapters/TournamentPlayersProvider";
+import { useNavigate } from "react-router-dom";
+import { editUser, login } from "../../Adapters/UsersProvider";
 import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
 import { UserContext } from "../../Store/UserContext";
 import UserInfoEdit from "./UserInfoEdit";
 
-function UserEditorWrapper(props) {
+function UserEditorWrapper() {
     const userContext = useContext(UserContext);
-    const mainPageScreenContext = useContext(MainPageContext);
+    const navigate = useNavigate();
 
     const [playerName, setPlayerName] = useState(userContext.user.username);
     const [preference, setPreference] = useState(userContext.user.preference);
     const [levelState, setLevelState] = useState(userContext.user.level);
     const [isLoading, setLoading] = useState(false);
     const [isClosed, setIsClosed] = useState(false);
-    console.log('enter to wrapper, isClosed = ', isClosed);
 
     const onLevelChangedHandler = value => {
         setLevelState(value);
@@ -31,7 +31,7 @@ function UserEditorWrapper(props) {
 
     async function editUserHandler() {
         setLoading(true);
-        const isSuceeded = await editPlayer( userContext.user.id ,  playerName,  levelState,  preference )
+        const isSuceeded = await editUser( userContext.user.id ,  playerName,  levelState,  preference )
         if (isSuceeded) {
             const loginUserResponse = await login(userContext.user.id);
             userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin, loginUserResponse.preference, loginUserResponse.id);
@@ -45,8 +45,7 @@ function UserEditorWrapper(props) {
 
     function closedHandler() {
         setIsClosed(true);
-        mainPageScreenContext.onScreenChanged({ screen: SCREENS.None });
-
+        navigate('/');
     }
 
     return (<Modal visible={!isClosed}

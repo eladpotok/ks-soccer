@@ -76,6 +76,11 @@ export const DEMO_USERS = [
   {
     name: 'elad peleg',
     stars: 5,
+    id: 0
+  },
+  {
+    name: 'israel ',
+    stars: 3,
     id: 1
   },
   {
@@ -213,9 +218,5 @@ export const DEMO_USERS = [
     stars: 3,
     id: 27
   },
-  {
-    name: 'israel ',
-    stars: 3,
-    id: 28
-  },
+ 
 ];

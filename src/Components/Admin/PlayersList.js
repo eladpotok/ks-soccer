@@ -1,14 +1,29 @@
 import { Button, Card, Input, Popconfirm, Slider, Table } from "antd";
-import React, { useState } from "react";
-import { setPlayerStars } from "../../Adapters/TournamentPlayersProvider";
+import React, { useEffect, useState } from "react";
+import { getAllUsers, setUserStars } from "../../Adapters/UsersProvider";
 import { SingleStar } from "../UI/Stars";
 import './PlayersList.css'
 
 function PlayersList(props) {
 
-    const [playersList, setPlayersList] = useState(props.players);
+    const [usersList, setUsersList] = useState(null);
+
+    useEffect(() => { 
+        (async () => { 
+            console.log('1')
+            if (!usersList) {
+                console.log('2')
+                const allUsers = await getAllUsers();
+                if(!allUsers) {
+                    return;
+                }
+                setUsersList(allUsers);
+            }
+        })() 
+      }, [usersList])
+
     function playerStarsEditHandler(playerToEdit) {
-        const newList = playersList.map((player) => {
+        const newList = usersList.map((player) => {
             if (player.id === playerToEdit.id) {
                 const updatedItem = {
                     ...player,
@@ -21,8 +36,8 @@ function PlayersList(props) {
             return player;
         });
 
-        setPlayerStars(playerToEdit.id, playerToEdit.stars);
-        setPlayersList(newList);
+        setUserStars(playerToEdit.id, playerToEdit.stars);
+        setUsersList(newList);
     }
 
     const columns = [
@@ -41,9 +56,9 @@ function PlayersList(props) {
             render: (text, record) => (<Slider value={typeof text === 'number' ? text : 0} max={5.0} step={0.5} onChange={
                 (value) => {
                     record.stars = value;
-                    console.log(playersList);
-                    const newList = playersList.filter( t=> t.id !== record.id);
-                    setPlayersList([...newList, record]);
+                    console.log(usersList);
+                    const newList = usersList.filter( t=> t.id !== record.id);
+                    setUsersList([...newList, record]);
                 }
             } />),
             sorter: (a, b) => a.stars - b.stars,
@@ -61,7 +76,7 @@ function PlayersList(props) {
     return <>
         <Card title='Players'>
 
-            <Table columns={columns} dataSource={props.players} >
+            <Table columns={columns} dataSource={usersList} >
 
             </Table>
 

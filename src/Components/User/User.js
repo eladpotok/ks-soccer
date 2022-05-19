@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
-import { login, registerNewPlayer } from "../../Adapters/TournamentPlayersProvider";
-import { auth, signInWithGoogle } from "../../firebase";
+import { signInWithGoogle } from "../../firebase";
 import { UserContext } from '../../Store/UserContext'
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Button, Card, Input, Modal, Skeleton, Tooltip, Col, InputNumber, Row, Slider } from "antd";
-import { isMobile } from "react-device-detect";
+import { Button, Modal } from "antd";
 import UserInfoEdit from "./UserInfoEdit";
+import { login, registerNewUser } from "../../Adapters/UsersProvider";
 
 
 function User() {
@@ -55,7 +53,7 @@ function User() {
 
     async function registerHandler() {
         setLoading(true);
-        const isSuceeded = await registerNewPlayer({ name: playerName, stars: levelState, id: uid, preference: preference })
+        const isSuceeded = await registerNewUser({ name: playerName, stars: levelState, id: uid, preference: preference })
         if (!isSuceeded) {
             setLoading(false);
             return;
@@ -83,11 +81,7 @@ function User() {
                     loading={isLoading}
                     onClick={registerHandler}>
                     Register
-                </Button>
-                   
-                }
-
-            >
+                </Button>}>
                 {!userContext.isAuthorized && <div>Please authorize yourself by Google</div>}
                 {!inFirstStepState && <UserInfoEdit title='This is your first time, Please fill your info' playerName={playerName} levelState={levelState} preference={preference} onPlayerNameChanged={playerNameChangedHandler} onLevelChanged={onLevelChangedHandler} onRadioChanged={onRadioChangedHandler} uid={uid}/>}
             </Modal>}

@@ -1,16 +1,20 @@
-import Card from "../../UI/Card";
 import ParticipantsList, { TournamentDataMobileView } from "./ParticipantsList";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../Store/UserContext";
 import { getDemo, GROUP_TYPE, makeGroups } from "../../../Utils/makeGroups";
 import { MainPageContext, SCREENS } from "../../../Store/MainPageContext";
-import getPlayersInTournament, { addPlayerToTournament, forcePlayerToMove, removePlayerFromTournament, saveTeams, setPlayerPaid } from "../../../Adapters/TournamentPlayersProvider";
+import getPlayersFromTournament, { addPlayerToTournament, movePlayerBetweenLevels, removePlayerFromTournament, setPlayerPaid } from "../../../Adapters/TournamentPlayersProvider";
 import './TournamentData.css'
 import { BrowserView, isMobile, MobileView } from "react-device-detect";
 import { checkIsAdmin, getPlayersByLevels, sortAscending } from "../../../Utils/commonUtils";
 import { AiOutlineSortAscending  } from 'react-icons/ai';
 import { BsSortNumericDownAlt } from 'react-icons/bs';
 import AddingTempPlayer from "../../Admin/AddingTempPlayer";
+import { saveTeams } from "../../../Adapters/TournamentTeamsProvider";
+import {  useNavigate } from "react-router-dom";
+import { Card } from "antd";
+import AdminWrapper from "../../UI/AdminWrapper";
+import { PlayersContext } from "../../../Store/PlayersContext";
 
 const BUTTON_TYPE = {
     leave: 'leave',
@@ -18,31 +22,32 @@ const BUTTON_TYPE = {
 }
 
 function TournamentData(props) {
-
-    const mainPageScreenContext = useContext(MainPageContext);
     const userContext = useContext(UserContext);
-    const [players, setPlayers] = useState(null);
-    const [playersBylevels, setPlayersByLevels] = useState({});
+    const playersContext = useContext(PlayersContext);
+    
+    const navigate = useNavigate();
+    
     const [buttonType, setButtonType] = useState('');
     const [isLoading, setLoading] = useState(false);
 
-
-
-
     async function updatePlayers() {
-        setLoading(true);
-        const playersInTournament = await getPlayersInTournament(props.id);
-        setPlayers(playersInTournament);
-        setPlayersByLevels(getPlayersByLevels(playersInTournament));
+        console.log('tournament id ', props.id)
+        const playersInTournament = await getPlayersFromTournament(props.id);
+        if(!playersInTournament) {
+            return;
+        }
+        playersContext.setPlayers(playersInTournament);
+        console.log('before set player and order', playersInTournament);
+        playersContext.setPlayersAndOrder(playersInTournament);
         setButtonType(getButtonType(playersInTournament, userContext.user.username));
         setLoading(false);
     }
 
     useEffect(() => {
-        if (!players) {
+        if (!playersContext.players) {
             updatePlayers();
         }
-    }, [players]);
+    }, [playersContext.players]);
 
 
     function getButtonToShow() {
@@ -60,9 +65,9 @@ function TournamentData(props) {
         setButtonType('');
         const isSucceeded = await addPlayer(userContext.user.id, userContext.user, props.id);
         if (isSucceeded) {
-            const playersFromDb = await getPlayersInTournament(props.id);
-            setPlayers(playersFromDb);
-            setPlayersByLevels(getPlayersByLevels(playersFromDb));
+            const playersFromDb = await getPlayersFromTournament(props.id);
+            playersContext.setPlayers(playersFromDb);
+            playersContext.setPlayersAndOrder(playersFromDb);
             setButtonType(BUTTON_TYPE.leave);
         }
         setLoading(false);
@@ -82,46 +87,37 @@ function TournamentData(props) {
     }
 
     async function createTeams() {
-        const teamsHigh = makeGroups(playersBylevels.highLevel, GROUP_TYPE.high);
-        const teamsLow = makeGroups(playersBylevels.lowLevel, GROUP_TYPE.low);
+        const teamsHigh = makeGroups(playersContext.playersByLevel.highLevel, GROUP_TYPE.high);
+        const teamsLow = makeGroups(playersContext.playersByLevel.lowLevel, GROUP_TYPE.low);
         await saveTeams(props.id, { teamsLow, teamsHigh });
-        mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: { teamsLow, teamsHigh , tournamentId: props.id } });
+        //mainPageScreenContext.onScreenChanged({ screen: SCREENS.Teams, data: { teamsLow, teamsHigh , tournamentId: props.id } });
+        navigate(`/tournaments/${props.id}/teams`)
     }
 
 
     async function addToAnotherLevelHandler(playerId, levelType) {
-        await forcePlayerToMove(playerId, levelType, props.id);
+        await movePlayerBetweenLevels(playerId, levelType, props.id);
         updatePlayers();
     }
 
 
-    const sortbyStars = () => {
-        playersBylevels.lowLevel.sort(function (a, b) { return b.stars - a.stars });
-        playersBylevels.highLevel.sort(function (a, b) { return b.stars - a.stars });
-        setPlayersByLevels({ lowLevel: playersBylevels.lowLevel, highLevel: playersBylevels.highLevel });
-    };
-
-    const sortbyAB = () => {
-        console.log(players)
-        playersBylevels.lowLevel.sort(function (a, b) { return a.name.localeCompare(b.name) });
-        playersBylevels.highLevel.sort(function (a, b) { return a.name.localeCompare(b.name) });
-        setPlayersByLevels({ lowLevel: playersBylevels.lowLevel, highLevel: playersBylevels.highLevel });
-    };
 
     const tempPlayerAddedHandler = async (uid, tempPlayerName, tempPlayerStars, preference) => {
         setLoading(true);
         const isSucceeded = await addPlayer(uid, { id: uid, username: tempPlayerName, level: tempPlayerStars, preference: preference}, props.id);
         if (isSucceeded) {
-            const playersFromDb = await getPlayersInTournament(props.id);
-            setPlayers(playersFromDb);
-            setPlayersByLevels(getPlayersByLevels(playersFromDb));
+            const playersFromDb = await getPlayersFromTournament(props.id);
+            playersContext.setPlayers(playersFromDb);
+            playersContext.setPlayersAndOrder(playersFromDb);
         }
 
         setLoading(false);
     };
 
+
+
     const cardContainerClasses = isMobile ? 'players-list-container-mobile' : 'players-list-container';
-    const cardClasses = isMobile ? 'players-list-card-mobile' : 'players-list-card';
+    // const cardClasses = isMobile ? 'players-list-card-mobile' : 'players-list-card';
 
     return (
         <>
@@ -130,28 +126,24 @@ function TournamentData(props) {
             }}>
                 <div className={cardContainerClasses}>
 
-                    <Card className={cardClasses}>
-                        <div className='tournament-data-title'>גרועים</div>
-                        {players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.lowLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.high) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
-                        {checkIsAdmin(userContext.user.isAdmin) && <AddingTempPlayer tournamentId={props.id} onPlayerAdded={(uid, tempPlayerName, tempPlayerStars) => tempPlayerAddedHandler(uid, tempPlayerName, tempPlayerStars, 'low')}/>}
-                        <div>{getNumberOfPlayersLabel('low', playersBylevels)}</div>
-                    </Card>
-                    <Card className={cardClasses}>
-                        <div className='tournament-data-title'>סבירים</div>
-                        {players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersBylevels.highLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.low) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low} />}
-                        {checkIsAdmin(userContext.user.isAdmin) && <AddingTempPlayer tournamentId={props.id} onPlayerAdded={(uid, tempPlayerName, tempPlayerStars) => tempPlayerAddedHandler(uid, tempPlayerName, tempPlayerStars, 'high')}/>}
-                        <div>{getNumberOfPlayersLabel('high', playersBylevels)}</div>
-                    </Card>
+                    <div style={{width: '400px', minHeight: '400px', margin: '20px'}}>
+                        {playersContext.players && <ParticipantsList  color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersContext.playersByLevel.lowLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.high) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.low} />}
+                        <AdminWrapper>
+                            <AddingTempPlayer  tournamentId={props.id} onPlayerAdded={(uid, tempPlayerName, tempPlayerStars) => tempPlayerAddedHandler(uid, tempPlayerName, tempPlayerStars, 'low')}/>
+                        </AdminWrapper>
+                    </div>
+                    <div style={{width: '400px',minHeight: '400px', margin: '20px'}}>
+                        {playersContext.players && <ParticipantsList color='#ffeb78' isLoading={isLoading} allowRemove={true} players={playersContext.playersByLevel.highLevel} onMovePlayer={(playerId) => { addToAnotherLevelHandler(playerId, GROUP_TYPE.low) }} onPlayerRemoved={playerRemovedHandler} levelType={GROUP_TYPE.high} />}
+                        <AdminWrapper>
+                            <AddingTempPlayer  tournamentId={props.id} onPlayerAdded={(uid, tempPlayerName, tempPlayerStars) => tempPlayerAddedHandler(uid, tempPlayerName, tempPlayerStars, 'high')}/>
+                        </AdminWrapper>
+                    </div>
                 </div>
                 <Card className='footer-card'>
                     <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
                         <div >{getButtonToShow()}</div>
                         <div >{checkIsAdmin(userContext.user.isAdmin) && <button onClick={createTeams} className='participants-lock-button'>Create Teams</button>}</div>
-                        <div>
-                            <button onClick={sortbyAB} className='participants-sort-button'><AiOutlineSortAscending /></button>
-                            <button onClick={sortbyStars} className='participants-sort-button'><BsSortNumericDownAlt /></button>
-                            <label className="footer-card-divider"></label>
-                        </div>
+        
                     </div>
                 </Card>
             </div>

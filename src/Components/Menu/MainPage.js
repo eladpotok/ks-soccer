@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { getAllTournaments, saveTeams as saveTeamsForTournamentInDb } from "../../Adapters/TournamentPlayersProvider";
+import { getAllTournaments } from "../../Adapters/TournamentPlayersProvider";
 import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
 import TeamsDistribution from "../Groups/TeamsDistribution";
 import TournamentData from "./Participants/TournamentData";
@@ -10,6 +10,7 @@ import { List, Modal } from "antd";
 import { isMobile } from "react-device-detect";
 import UserInfoEdit from "../User/UserInfoEdit";
 import UserEditorWrapper from "../User/UserEditorWrapper";
+import { saveTeams } from "../../Adapters/TournamentTeamsProvider";
 
 function MainPage(props) {
     const mainPageScreenContext = useContext(MainPageContext);
@@ -44,9 +45,9 @@ function getPlayersScreen(players) {
 }
 
 function getTournamentPreviewScreen(data) {
-    if (data.length === 0) {
-        return <div className='no-tournaments'>no tournaments next</div>
-    }
+    // if (data.length === 0) {
+    //     return <div className='no-tournaments'>no tournaments next</div>
+    // }
 
 
     return <List 
@@ -71,7 +72,7 @@ function getEditUserScreen(data) {
 
 function getTournamentDataScreen(data) {
     async function teamsCreatedHandler(teams, tournamentId) {
-        await saveTeamsForTournamentInDb(tournamentId, teams);
+        await saveTeams(tournamentId, teams);
     };
 
     return <div ><TournamentData onTeamsCreated={teamsCreatedHandler} date={data.date} id={data.id} /></div>

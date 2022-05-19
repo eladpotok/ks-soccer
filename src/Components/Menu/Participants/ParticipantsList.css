@@ -1,46 +1,145 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
-
-.divider-player-list {
-    height: 1px;
-    margin: 3px;
-    border: rgba(28, 24, 24, 0.1);
-    border-width: 0px;
-    border-top-width: 1px;
-    border-style: solid;
-}
-
-.hard-divider {
-    height: 1px;
-    border: rgba(0, 0, 0, 0.5);
-    border-width: 0px;
-    border-top-width: 1px;
-    border-style: solid;
-    margin-top: 20px;
-}
-
-.player-name {
-    text-align: left;
+.sort-ab-button {
+    background-color: rgba(53, 184, 255, 0.82);
+    border-radius: 25px;
+    margin-right: 15px;
+    margin-top: 25px;
+    border: 0px solid rgb(255, 255, 255);
     color: white;
-    font-style: bold;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.leaderboard {
+    max-width: 490px;
+    width: 100%;
+    border-radius: 12px;
+  }
+  .leaderboard header {
+    --start: 15%;
+    height: 130px;
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, 0.33) 10%, rgba(54, 89, 219, 0.33) 17%), linear-gradient(to right, #5b7cfa, #3659db);
+    color: #fff;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+  }
+  .leaderboard header .leaderboard__title {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: calc(var(--start) * .75);
+    transform: translateY(-50%);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .leaderboard header .leaderboard__title span {
+    display: block;
+  }
+  .leaderboard header .leaderboard__title--top {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 6.5px;
     
- 
-    font-family: "Open Sans Condensed";
-}
+  }
 
-.remove-player {
-    font-style: italic;
-    text-decoration: underline;
-    margin-left: 5px;
-    color: rgb(37, 40, 40);
-}
+  .leaderboard header .leaderboard__title--bottom {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3.55px;
+    opacity: 0.65;
+    transform: translateY(-2px);
+  }
+  .leaderboard header .leaderboard__title--sort {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3.55px;
+    transform: translatex(45px) translateY(45px);
+  }
+  .leaderboard header .leaderboard__icon {
+    fill: #fff;
+    opacity: 0.35;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: var(--start);
+    transform: translate(-50%, -50%);
+  }
+  .leaderboard__profiles {
+    background-color: #fff;
+    border-radius: 0 0 12px 12px;
+    padding: 15px 15px 20px;
+    display: grid;
+    row-gap: 8px;
+  }
+  .leaderboard__profile__admin {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 3fr 1fr;
+    align-items: center;
+    padding: 10px 30px 10px 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.7, 0.98, 0.86, 0.98), box-shadow 0.25s cubic-bezier(0.7, 0.98, 0.86, 0.98);
+    background-color: #fff;
+  }
+  .leaderboard__profile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 10px 30px 10px 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.7, 0.98, 0.86, 0.98), box-shadow 0.25s cubic-bezier(0.7, 0.98, 0.86, 0.98);
+    background-color: #fff;
+  }
+  .leaderboard__profile:hover {
+    transform: scale(1.2);
+    box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+  }
+  .leaderboard__profile__admin:hover {
+    transform: scale(1.2);
+    box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+  }
+  .leaderboard__picture {
+    max-width: 100%;
+    width: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
+  }
+  .leaderboard__name {
+    color: #979cb0;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.64px;
+    margin-left: 12px;
+  }
+  .leaderboard__value {
+    color: #35d8ac;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: right;
+  }
+  .leaderboard__value > span {
+    opacity: 0.8;
+    font-weight: 600;
+    font-size: 13px;
+    margin-left: 3px;
+  }
+  
+  /* body {
+    margin: 0;
+    background-color: #eaeaea;
+    display: grid;
+    height: 100vh;
+    place-items: center;
+    font-family: "Source Sans Pro", sans-serif;
+  } */
+  
+  .leaderboard {
+    box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.4);
+  }
 
-.row {
-    display: flex;
-    justify-content: space-between;
-}
 
-
-
-.players-count {
-    margin-left: 10px;
-}
