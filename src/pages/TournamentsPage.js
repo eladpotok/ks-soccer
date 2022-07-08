@@ -1,7 +1,7 @@
 import { List, Skeleton, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllTournaments } from "../Adapters/TournamentPlayersProvider";
+import { deleteTournament, getAllTournaments } from "../Adapters/TournamentPlayersProvider";
 import TournamentPreview from "../Components/Menu/TournamentPreview";
 import LoadingComponent from "../Components/UI/LoadingComponent";
 
@@ -27,6 +27,11 @@ function TournamentsPage() {
         navigate(`/tournaments/${tournamentId}`)
     }
 
+    async function tournamentDeleteHandler(tournamentId) {
+        await deleteTournament(tournamentId);
+        setTournaments(null);
+    }
+
     return (<>
         <LoadingComponent isLoading={isLoading}>
             <div>
@@ -36,7 +41,7 @@ function TournamentsPage() {
                     dataSource={tournaments}
                     renderItem={item => (
                         <List.Item>
-                            {<TournamentPreview onMoveToTournament={moveToTournamentPageHandler} title={item.title} date={item} key={item.id} id={item.id} teams={item.teams} />}
+                            {<TournamentPreview onDeleteTournament={tournamentDeleteHandler} onMoveToTournament={moveToTournamentPageHandler} players={item.players} title={item.title} date={item} key={item.id} id={item.id} teams={item.teams} />}
                         </List.Item>
                     )}
                 />}

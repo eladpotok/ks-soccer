@@ -10,27 +10,48 @@
 }
 
 .participants-join-button {
-    background-color: rgba(65, 255, 90, 0.82);
-    border-radius: 8px;
-    padding-top:5px;
-    padding-bottom:5px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border: 1px solid rgb(255, 255, 255);
-    color: white;
-    font-weight: bold;
-}
-
-.participants-lock-button {
-    background-color: rgba(255, 167, 53, 0.82);
-    border-radius: 8px;
+    background-color: #f2fff0;
+    border-radius: 3px;
     padding-top:5px;
     padding-bottom:5px;
     padding-left: 15px;
     padding-right: 15px;
     margin-right: 10px;
-    border: 1px solid rgb(255, 255, 255);
-    color: white;
+    border: 1px solid  #adffae;
+    color: #1dc44f;
+    font-weight: bold;
+    cursor: pointer; 
+} .participants-join-button:hover {
+    background-color: #dafad5;
+}
+
+
+
+.participants-lock-button {
+    background-color: #f0f5ff;
+    border-radius: 3px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    border: 1px solid  #adc6ff;
+    color: #1d39c4;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.participants-lock-button:hover {
+    background-color: #d0e1fe;
+    border-radius: 3px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    border: 1px solid  #adc6ff;
+    color: #1d39c4;
     font-weight: bold;
 }
 
@@ -46,15 +67,29 @@
 }
 
 .participants-leave-button {
-    background-color: rgba(255, 53, 63, 0.82);
-    border-radius: 8px;
+    background-color: #fff2e8;
+    border-radius: 3px;
     padding-top:5px;
     padding-bottom:5px;
     padding-left: 15px;
+    color: #d4380d;
     padding-right: 15px;
-    border: 1px solid rgb(255, 255, 255);
-    color: white;
+    border: 1px solid #ffbb96;
     font-weight: bold;
+    cursor: pointer;
+}
+
+.participants-leave-button:hover {
+    background-color: #ffebe8;
+    border-radius: 3px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left: 15px;
+    color: #d4380d;
+    padding-right: 15px;
+    border: 1px solid #ffbb96;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .players-list-container {

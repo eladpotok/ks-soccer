@@ -8,8 +8,7 @@ function TeamsPage() {
     const groupContainerClass = 'teams-card' ;
 
     return (<div className={groupContainerClass}>
-        <div className='teams'><TeamsDistribution tournamentId={params.tournamentId} isHigh={true}/></div>
-        <div className='teams'><TeamsDistribution tournamentId={params.tournamentId} isHigh={false}/></div>
+        <div className='teams'><TeamsDistribution tournamentId={params.tournamentId}/></div>
     </div>)
 }
 

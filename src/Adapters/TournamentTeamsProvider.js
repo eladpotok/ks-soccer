@@ -21,8 +21,8 @@ export async function getTeamsByTournamentId(tournamentId) {
     return data;
 }
 
-export async function setPlayersInTeam(tournamentId, tournamentLevel, teamId, players){
-    await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/teams/${tournamentLevel}/${teamId}/players.json`,
+export async function setPlayersInTeam(tournamentId, teamId, players){
+    await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/teams/${teamId}/players.json`,
     {
         method: 'PUT',
         body: JSON.stringify(players)

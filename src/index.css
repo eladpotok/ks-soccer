@@ -5,12 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: red;
   background-repeat: no-repeat;
   background-size: auto;
-
-  background-image: url("https://wallpaperaccess.com/full/1249002.jpg");
+  /* background-image: url("https://wallpaperaccess.com/full/1249002.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed; */
 
 }
 

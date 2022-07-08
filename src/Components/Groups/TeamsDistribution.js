@@ -23,7 +23,7 @@ function TeamsDistribution(props) {
                 if(!teamsFromDb) {
                     return;
                 }
-                setTeams(teamsFromDb[BOOL_TO_LEVEL_TYPE[props.isHigh]]);
+                setTeams(teamsFromDb);
             }
         })() 
       }, [teams])
@@ -37,37 +37,37 @@ function TeamsDistribution(props) {
     const movePlayerToGroup = async (player, moveFrom, moveTo) => {
         const teamFromId = dbDisplayToPageDisplay[moveFrom];
         const teamToId = dbDisplayToPageDisplay[moveTo];
-        
-        const tournamentLevel = props.isHigh ? 'teamsHigh' : 'teamsLow';
 
-        const playersFrom = objectToArray(teams[teamFromId].players).filter( pl => pl.id !== player.id);
+        const playersFrom = objectToArray(teams[teamFromId].players).filter( pl => pl.userId !== player.userId);
         const playersTo = objectToArray(teams[teamToId].players).concat([player]);
+
+        console.log('players from', playersFrom);
+        console.log('players to', playersTo);
         
-        await setPlayersInTeam(props.tournamentId, tournamentLevel, teamFromId,  arrayToObject(playersFrom));
-        await setPlayersInTeam(props.tournamentId, tournamentLevel, teamToId, arrayToObject(playersTo));
+        await setPlayersInTeam(props.tournamentId, teamFromId,  arrayToObject(playersFrom));
+        await setPlayersInTeam(props.tournamentId, teamToId, arrayToObject(playersTo));
         await fetchTeams();
     };
 
     const playerPaidHandler = async(playerId, teamId, paid) => {
-        await setPlayerPaid(playerId, props.tournamentId, props.isHigh ? 'teamsHigh' : 'teamsLow', dbDisplayToPageDisplay[teamId] ,  paid);
+        await setPlayerPaid(playerId, props.tournamentId, dbDisplayToPageDisplay[teamId] ,  paid);
         await fetchTeams();
     }
 
     const fetchTeams = async() => {
         const teamsFromDb = await getTeamsByTournamentId(props.tournamentId);
-        const teamsAccordingToLevel = props.isHigh ? teamsFromDb.teamsHigh : teamsFromDb.teamsLow;
-        setTeams(teamsAccordingToLevel);
+        setTeams(teamsFromDb);
     }
 
     return (
         <div>
             <div className="distribution-title">
-                {props.isHigh ? "סבירים" : "גרועים"}
+                Players
             </div>
            {teams && <div className={groupContainerClass} >
-                <Group onPlayerPaid={playerPaidHandler} onRefreshGroups={movePlayerToGroup} tournamentId={props.tournamentId} isHigh={props.isHigh} className={groupClass} players={teams[0].players} teamId='A' color={teams[0].color} />
-                <Group onPlayerPaid={playerPaidHandler}  onRefreshGroups={movePlayerToGroup} tournamentId={props.tournamentId} isHigh={props.isHigh} className={groupClass} players={teams[1].players} teamId='B' color={teams[1].color} />
-                <Group onPlayerPaid={playerPaidHandler}  onRefreshGroups={movePlayerToGroup} tournamentId={props.tournamentId} isHigh={props.isHigh} className={groupClass} players={teams[2].players} teamId='C' color={teams[2].color} />
+                <Group onPlayerPaid={playerPaidHandler}  onRefreshGroups={movePlayerToGroup} tournamentId={props.tournamentId} className={groupClass} players={teams[0].players} teamId='A' color={teams[0].color} />
+                <Group onPlayerPaid={playerPaidHandler}  onRefreshGroups={movePlayerToGroup} tournamentId={props.tournamentId} className={groupClass} players={teams[1].players} teamId='B' color={teams[1].color} />
+                <Group onPlayerPaid={playerPaidHandler}  onRefreshGroups={movePlayerToGroup} tournamentId={props.tournamentId} className={groupClass} players={teams[2].players} teamId='C' color={teams[2].color} />
             </div>}
         </div>
     );

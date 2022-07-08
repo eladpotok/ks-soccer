@@ -6,64 +6,43 @@ import { MainPageContext, SCREENS } from "../../Store/MainPageContext";
 import { UserContext } from "../../Store/UserContext";
 import UserInfoEdit from "./UserInfoEdit";
 
-function UserEditorWrapper() {
+function UserEditorWrapper(props) {
+
+    const nevigate = useNavigate();
     const userContext = useContext(UserContext);
-    const navigate = useNavigate();
 
-    const [playerName, setPlayerName] = useState(userContext.user.username);
-    const [preference, setPreference] = useState(userContext.user.preference);
-    const [levelState, setLevelState] = useState(userContext.user.level);
-    const [isLoading, setLoading] = useState(false);
-    const [isClosed, setIsClosed] = useState(false);
+    const [user, setUser] = useState(userContext.user ?? {
+        userId: props.userId,
+        name: '',
+        position: '',
+        stars: 2.5,
+        unit: '',
+        isAdmin: false
+    });
 
-    const onLevelChangedHandler = value => {
-        setLevelState(value);
-    };
-
-    const playerNameChangedHandler = value => {
-        setPlayerName(value.target.value);
-    };
-
-    const onRadioChangedHandler = e => {
-        const value = e.target.value;
-        setPreference(value);
-    };
-
-    async function editUserHandler() {
-        setLoading(true);
-        const isSuceeded = await editUser( userContext.user.id ,  playerName,  levelState,  preference )
-        if (isSuceeded) {
-            const loginUserResponse = await login(userContext.user.id);
-            userContext.onLogin(loginUserResponse.name, loginUserResponse.stars, loginUserResponse.isAdmin, loginUserResponse.preference, loginUserResponse.id);
-            setLoading(false);
-            closedHandler();
-            return;
-        }
-
-        setLoading(false);
-    };
-
-    function closedHandler() {
-        setIsClosed(true);
-        navigate('/');
+    async function saveUserToDb() {
+        console.log(`save to db the user ${JSON.stringify(user)}`)
+        userContext.editUser(user);
     }
 
-    return (<Modal visible={!isClosed}
-            title={playerName} onCancel={closedHandler}
+    function close() {
+        nevigate('/');
+    }
+
+    return (<Modal visible={true}
+            onCancel={close}
             footer={[<Button
-            key="register"
+            key="register"  
             type="primary"
-            loading={isLoading}
-            onClick={editUserHandler}>
+            onClick={saveUserToDb}>
             Save
         </Button>, <Button
             key="close"
             type="secondary"
-            loading={isLoading}
-            onClick={closedHandler}>
+            onClick={close}>
             Close
         </Button>]}>
-        <UserInfoEdit title='Edit your information' playerName={playerName} levelState={levelState} preference={preference} onPlayerNameChanged={playerNameChangedHandler} onLevelChanged={onLevelChangedHandler} onRadioChanged={onRadioChangedHandler} uid={userContext.user.id} />
+        <UserInfoEdit user={user} setUser={setUser} title='Edit your information'/>
     </Modal>)
 }
 

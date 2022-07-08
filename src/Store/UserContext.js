@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getUserById } from "../Adapters/UsersProvider";
+import { useLocation, useNavigate } from "react-router-dom";
+import { addUserToDb, getUserById } from "../Adapters/UsersProvider";
 import { auth } from "../firebase";
 
 export const UserContext = React.createContext({
@@ -9,81 +10,92 @@ export const UserContext = React.createContext({
         level: '',
         isAdmin: false
     },
-    onLogin: (username, level, isAdmin, preference, id) => {},
-    onLogout: () => {},
-    isAuthorized: false,
+    onLogin: (tokenId) => { },
+    onLogout: () => { },
+    tokenExists: false,
 });
 
+const emptyUser = {
+    name: '',
+    stars: 0,
+    isAdmin: false
+}
+
+export const LoginResult = {
+    Completed: 'completed',
+    Failed: 'failed',
+    FillInfo: 'fillInfo'
+}
 
 export const UserContextProvider = (props) => {
+
+    const [user, setUser] = useState(emptyUser);
+    const nevigate = useNavigate();
+
+    const userTokenFromStorage = localStorage.getItem('userToken');
+    const [userToken, setUserToken] = useState(userTokenFromStorage);
     
-    const [googleUser, loading, error] = useAuthState(auth);
-    console.log(googleUser);
-    let startingUserData = {};
+    useEffect(() => { 
+        (async () => { 
+            if (userToken) {
+                const user = await getUserById(userToken);
+                if(user) {
+                    setUser(user);
+                }
+                else {
+                    console.log(`tried to fetch user by token ${userToken} but wasn't found in db`)
+                    nevigate(`/fillDetails/${userToken}`)
+                }
+            }
+            else {
+                console.log(`user token wasn't set`)
+            }
+        })() 
+      }, [userToken])
+ 
 
-    if(keepMeLogin() && googleUser) {
-        fetchUserFromDB();
-    }
-
-    async function fetchUserFromDB() {
-        const data = await getUserById(googleUser.uid);
-        startingUserData = data;
-        
-        setUserId(googleUser.uid);
-        setUsername(startingUserData.name);
-        setLevel(startingUserData.stars);
-        setAdmin(startingUserData.isAdmin);
-        setPreference(startingUserData.preference);
-        setUserId(googleUser.uid);
-        setAuthorize(startingUserData.name!= null);
-    }
-
-   
-    
-    const [userId, setUserId] = useState(startingUserData.id);
-    const [username, setUsername] = useState(startingUserData.name);
-    const [level, setLevel] = useState(startingUserData.stars);
-    const [isAdmin, setAdmin] = useState(startingUserData.isAdmin);
-    const [preference, setPreference] = useState(startingUserData.preference);
-    const [isAuthorized, setAuthorize] = useState(username != null);
-
-    const user = { username: username, level: level, isAdmin: isAdmin, preference: preference , id: userId }
-
-    const loginHandler = (username, level, isAdmin, preference, id) => {
-        setUserId(id);
-        setUsername(username);
-        setLevel(level);
-        setAdmin(isAdmin);
-        setPreference(preference);
-        setAuthorize(true);
-        setKeepMeLogin(true);
+    const loginHandler = async (userId) => {
+        setUserToken(userId);
+        localStorage.setItem('userToken', userId);
+        try {
+            const user = await getUserById(userId);
+            if(user) {
+                setUser(user);
+                return LoginResult.Completed;
+            }
+            else {
+                console.log(`tried to fetch user by token ${userToken} but wasn't found in db`)
+                return LoginResult.FillInfo;
+            }
+        }
+        catch {
+            return LoginResult.Failed;
+        }
     };
 
+    const userEditedHandler = (user) => {
+        addUserToDb(user).then( (res) => {
+            setUser(user);
+            nevigate('/');
+        });
+    };
+
+
     const logoutHandler = () => {
-        setUserId('');
-        setUsername('');
-        setLevel(0);
-        setAdmin(false);
-        setPreference('');
-        setAuthorize(false);
-        setKeepMeLogin(false);
+        setUserToken(null);
+        localStorage.removeItem('userToken');
+        setUser(emptyUser);
     };
 
 
     return <UserContext.Provider value={{
         user: user,
+        editUser: userEditedHandler,
         onLogin: loginHandler,
         onLogout: logoutHandler,
-        isAuthorized: keepMeLogin() || isAuthorized
+        tokenExists: userToken !== null,
+        userExists: user !== emptyUser
     }}>
-        {props.children}    
+        {props.children}
     </UserContext.Provider>
 };
-
-function keepMeLogin() {
-    return localStorage.getItem('keep_me_login_in') === 'true';
-}
-
-function setKeepMeLogin(value) {
-    return localStorage.setItem('keep_me_login_in',value);
-}

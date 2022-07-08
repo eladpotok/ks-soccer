@@ -6,6 +6,7 @@ import Stars from "../UI/Stars";
 import { useContext } from "react";
 import { UserContext } from "../../Store/UserContext";
 import { checkIsAdmin, objectToArray } from "../../Utils/commonUtils";
+import AdminWrapper from '../UI/AdminWrapper';
 
 function Group(props) {
     const userContext = useContext(UserContext);
@@ -39,16 +40,22 @@ function Group(props) {
                         <div key={player.id}>
                             <div className='row'>
                                 <div className='group-player-name' >
-                                    {checkIsAdmin(userContext.user.isAdmin) && <Checkbox defaultChecked={player.paid} onChange={(e) => {onCheckboxChangedHandler(player.id, props.teamId, e);}}> </Checkbox>}
+                                    <AdminWrapper>
+                                        <Checkbox defaultChecked={player.paid} onChange={(e) => {onCheckboxChangedHandler(player.id, props.teamId, e);}}> </Checkbox>
+                                    </AdminWrapper>
                                     {player.name}
                                 </div>
                                 <div>
                                     <Stars stars={player.stars} />
-                                    {checkIsAdmin(userContext.user.isAdmin) && props.levelType && <label style={{ borderStyle: 'solid', borderRadius: '10px', opacity: '0.7' , borderWidth: '1px', borderColor: 'grey',  marginLeft: '4px', marginRight: '4px' }} />}
+                                    <AdminWrapper>
+                                        <label style={{ borderStyle: 'solid', borderRadius: '10px', opacity: '0.7' , borderWidth: '1px', borderColor: 'grey',  marginLeft: '4px', marginRight: '4px' }} />
+                                    </AdminWrapper>
                                     
-                                    {checkIsAdmin(userContext.user.isAdmin) && getOtherTeams(props.teamId).map( (team)=> (
-                                        <button disabled={groupPlayers.length === 1} className="move-to-group" onClick={() => movePlayerToTeamHandler(player, props.teamId, team)}>{team}</button>
-                                    ))}
+                                    <AdminWrapper>
+                                        {getOtherTeams(props.teamId).map( (team)=> (
+                                            <button disabled={groupPlayers.length === 1} className="move-to-group" onClick={() => movePlayerToTeamHandler(player, props.teamId, team)}>{team}</button>
+                                        ))}
+                                    </AdminWrapper>
                                 </div>
                             </div>
                             <div className='divider-player-list' />
@@ -57,7 +64,6 @@ function Group(props) {
 
                 )}
             </div>
-
                 {/* <ParticipantsList showPaid={true} color='black' allowRemove={false} players={groupPlayers}/> */}
             </Card>
         </div>

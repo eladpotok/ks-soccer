@@ -33,7 +33,7 @@ export default async function getPlayersFromTournament(tournamentId) {
 
 export async function addPlayerToTournament(player, tournamentId) {
 
-    const response = await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/players/${player.id}.json`, {
+    const response = await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/players/${player.userId}.json`, {
         method: 'PUT',
         body: JSON.stringify(player)
     });
@@ -41,13 +41,16 @@ export async function addPlayerToTournament(player, tournamentId) {
     return response.status == 200;
 };
 
-export async function removePlayerFromTournament(userId, tournamentId) {
-
-    let playerFromDbToRemove = null;
-    const playersFromDb = await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/players/${userId}.json`, {
-        method: 'DELETE'
+export async function setPlayersInTournament(players, tournamentId) {
+    console.log('asdasd',players)
+    const response = await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/players.json`, {
+        method: 'PUT',
+        body: JSON.stringify(players)
     });
+    return response.status == 200;;
 };
+
+
 
 export async function movePlayerBetweenLevels(playerId, levelType, tournamentId) {
     
@@ -59,8 +62,8 @@ export async function movePlayerBetweenLevels(playerId, levelType, tournamentId)
     return response.status == 200;
 };
 
-export async function setPlayerPaid(playerId, tournamentId, tournamentLevel, teamId, paid) {
-    const response = await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/teams/${tournamentLevel}/${teamId}/players/${playerId}/paid.json`, {
+export async function setPlayerPaid(playerId, tournamentId, teamId, paid) {
+    const response = await fetch(`${DB_URL}/${TOURNAMENT_TABLE}/${tournamentId}/teams/${teamId}/players/${playerId}/paid.json`, {
         method: 'PUT',
         body: JSON.stringify(paid)
     });
@@ -96,7 +99,8 @@ export async function getAllTournaments(){
                 date: new Date(data[key].date),
                 time: new Date(data[key].time),
                 title: data[key].title,
-                teams: data[key].teams
+                teams: data[key].teams,
+                players: data[key].players
             }
 
         );

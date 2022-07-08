@@ -16,6 +16,9 @@ export async function login(playerId) {
 }
 
 export async function registerNewUser(player) {
+    
+
+    
     const playersFromDb = await fetch(`${DB_URL}/${USER_TABLE}.json`);
     const data = await playersFromDb.json();
     for (const key in data) {
@@ -65,4 +68,40 @@ export async function getUserById(id){
     const playersFromDb = await fetch(`${DB_URL}/${USER_TABLE}/${id}.json`);
     const data = await playersFromDb.json();
     return data;
+}
+
+
+export  function register(mail, password) {
+    return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDYidEAT_gMmc3WwvWZ46N5crdR3M-BMYw', {
+        method: 'POST',
+        body: JSON.stringify({
+            email: mail,
+            password: password,
+            returnSecureToken: true
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
+export function login2(mail, password) {
+    return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDYidEAT_gMmc3WwvWZ46N5crdR3M-BMYw', {
+        method: 'POST',
+        body: JSON.stringify({
+            email: mail,
+            password: password,
+            returnSecureToken: true
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
+export async function addUserToDb(user) {
+    const response = await fetch(`${DB_URL}/${USER_TABLE}/${user.userId}.json`, {
+        method: 'PUT',
+        body: JSON.stringify(user)
+    });
 }

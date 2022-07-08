@@ -67,7 +67,7 @@ function User() {
     return (
         <>
             {<Modal title="Hey Guest" closable={false}
-                visible={!userContext.isAuthorized}
+                visible={!userContext.tokenExists}
 
                 footer={  inFirstStepState ? <Button
                     key="login"
@@ -82,7 +82,7 @@ function User() {
                     onClick={registerHandler}>
                     Register
                 </Button>}>
-                {!userContext.isAuthorized && <div>Please authorize yourself by Google</div>}
+                {!userContext.tokenExists && <div>Please authorize yourself by Google</div>}
                 {!inFirstStepState && <UserInfoEdit title='This is your first time, Please fill your info' playerName={playerName} levelState={levelState} preference={preference} onPlayerNameChanged={playerNameChangedHandler} onLevelChanged={onLevelChangedHandler} onRadioChanged={onRadioChangedHandler} uid={uid}/>}
             </Modal>}
         </>
